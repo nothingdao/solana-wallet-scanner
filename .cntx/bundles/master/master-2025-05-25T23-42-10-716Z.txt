@@ -1,0 +1,1687 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bundle id="master-2025-05-25T23-42-10-716Z" created="2025-05-25T23:42:10.716Z" fileCount="25">
+  
+  <metadata>
+    <projectName>project</projectName>
+    <totalFiles>25</totalFiles>
+    <bundleType>master</bundleType>
+    <ignorePatterns>
+      <pattern>node_modules</pattern>
+      <pattern>.git</pattern>
+      <pattern>dist</pattern>
+      <pattern>build</pattern>
+      <pattern>coverage</pattern>
+      <pattern>.next</pattern>
+      <pattern>.cache</pattern>
+      <pattern>.netlify</pattern>
+      <pattern>package-lock.json</pattern>
+      <pattern>yarn.lock</pattern>
+      <pattern>.DS_Store</pattern>
+      <pattern>Thumbs.db</pattern>
+      <pattern>*.mp3</pattern>
+      <pattern>*.mp4</pattern>
+      <pattern>*.wav</pattern>
+      <pattern>*.ogg</pattern>
+      <pattern>*.m4a</pattern>
+      <pattern>*.flac</pattern>
+      <pattern>*.jpg</pattern>
+      <pattern>*.jpeg</pattern>
+      <pattern>*.png</pattern>
+      <pattern>*.gif</pattern>
+      <pattern>*.webp</pattern>
+      <pattern>*.svg</pattern>
+      <pattern>*.ico</pattern>
+      <pattern>*.pxd</pattern>
+      <pattern>*.pdf</pattern>
+      <pattern>*.doc</pattern>
+      <pattern>*.docx</pattern>
+      <pattern>*.zip</pattern>
+      <pattern>*.tar</pattern>
+      <pattern>*.gz</pattern>
+      <pattern>*.rar</pattern>
+      <pattern>example-project</pattern>
+      <pattern>issues</pattern>
+    </ignorePatterns>
+  </metadata>
+
+  <directoryTree>
+  <directory name="netlify" path="netlify">
+    <directory name="functions" path="netlify/functions">
+      <file name="scan-wallet.ts" path="netlify/functions/scan-wallet.ts" size="0" lastModified="2025-05-25T23:34:31.173Z">
+        <tags></tags>
+      </file>
+    </directory>
+  </directory>
+  <directory name="src" path="src">
+    <directory name="components" path="src/components">
+      <directory name="ui" path="src/components/ui">
+        <file name="alert-dialog.tsx" path="src/components/ui/alert-dialog.tsx" size="0" lastModified="2025-05-25T23:31:10.402Z">
+          <tags></tags>
+        </file>
+        <file name="badge.tsx" path="src/components/ui/badge.tsx" size="0" lastModified="2025-05-25T23:31:10.381Z">
+          <tags></tags>
+        </file>
+        <file name="button.tsx" path="src/components/ui/button.tsx" size="0" lastModified="2025-05-25T23:31:10.348Z">
+          <tags></tags>
+        </file>
+        <file name="card.tsx" path="src/components/ui/card.tsx" size="0" lastModified="2025-05-25T23:31:10.373Z">
+          <tags></tags>
+        </file>
+        <file name="progress.tsx" path="src/components/ui/progress.tsx" size="0" lastModified="2025-05-25T23:31:10.409Z">
+          <tags></tags>
+        </file>
+      </directory>
+      <file name="WalletScanner.tsx" path="src/components/WalletScanner.tsx" size="0" lastModified="2025-05-25T23:37:54.549Z">
+        <tags></tags>
+      </file>
+    </directory>
+    <directory name="lib" path="src/lib">
+      <file name="utils.ts" path="src/lib/utils.ts" size="0" lastModified="2025-05-25T23:30:01.393Z">
+        <tags></tags>
+      </file>
+    </directory>
+    <file name="App.css" path="src/App.css" size="0" lastModified="2025-05-25T23:14:23.882Z">
+      <tags></tags>
+    </file>
+    <file name="App.tsx" path="src/App.tsx" size="0" lastModified="2025-05-25T23:33:36.073Z">
+      <tags></tags>
+    </file>
+    <file name="index.css" path="src/index.css" size="0" lastModified="2025-05-25T23:29:53.287Z">
+      <tags></tags>
+    </file>
+    <file name="main.tsx" path="src/main.tsx" size="0" lastModified="2025-05-25T23:14:23.885Z">
+      <tags></tags>
+    </file>
+    <file name="vite-env.d.ts" path="src/vite-env.d.ts" size="0" lastModified="2025-05-25T23:14:23.886Z">
+      <tags></tags>
+    </file>
+  </directory>
+  <file name=".gitignore" path=".gitignore" size="0" lastModified="2025-05-25T23:14:23.877Z">
+    <tags></tags>
+  </file>
+  <file name="components.json" path="components.json" size="0" lastModified="2025-05-25T23:29:52.750Z">
+    <tags></tags>
+  </file>
+  <file name="eslint.config.js" path="eslint.config.js" size="0" lastModified="2025-05-25T23:14:23.878Z">
+    <tags></tags>
+  </file>
+  <file name="index.html" path="index.html" size="0" lastModified="2025-05-25T23:14:23.878Z">
+    <tags></tags>
+  </file>
+  <file name="netlify.toml" path="netlify.toml" size="0" lastModified="2025-05-25T23:34:55.264Z">
+    <tags></tags>
+  </file>
+  <file name="package.json" path="package.json" size="0" lastModified="2025-05-25T23:35:12.355Z">
+    <tags></tags>
+  </file>
+  <file name="README.md" path="README.md" size="0" lastModified="2025-05-25T23:40:54.052Z">
+    <tags></tags>
+  </file>
+  <file name="tailwind.config.js" path="tailwind.config.js" size="0" lastModified="2025-05-25T23:26:03.230Z">
+    <tags></tags>
+  </file>
+  <file name="tsconfig.app.json" path="tsconfig.app.json" size="0" lastModified="2025-05-25T23:26:32.728Z">
+    <tags></tags>
+  </file>
+  <file name="tsconfig.json" path="tsconfig.json" size="0" lastModified="2025-05-25T23:26:14.688Z">
+    <tags></tags>
+  </file>
+  <file name="tsconfig.node.json" path="tsconfig.node.json" size="0" lastModified="2025-05-25T23:14:23.888Z">
+    <tags></tags>
+  </file>
+  <file name="vite.config.ts" path="vite.config.ts" size="0" lastModified="2025-05-25T23:29:33.575Z">
+    <tags></tags>
+  </file>
+</directoryTree>
+
+  <asciiTree>
+project/
+├── netlify/
+│   └── functions/
+│       └── scan-wallet.ts
+├── src/
+│   ├── components/
+│   │   ├── ui/
+│   │   │   ├── alert-dialog.tsx
+│   │   │   ├── badge.tsx
+│   │   │   ├── button.tsx
+│   │   │   ├── card.tsx
+│   │   │   └── progress.tsx
+│   │   └── WalletScanner.tsx
+│   ├── lib/
+│   │   └── utils.ts
+│   ├── App.css
+│   ├── App.tsx
+│   ├── index.css
+│   ├── main.tsx
+│   └── vite-env.d.ts
+├── .gitignore
+├── components.json
+├── eslint.config.js
+├── index.html
+├── netlify.toml
+├── package.json
+├── README.md
+├── tailwind.config.js
+├── tsconfig.app.json
+├── tsconfig.json
+├── tsconfig.node.json
+└── vite.config.ts
+
+25 files, 6 directories
+  </asciiTree>
+
+  <documents>
+    
+    <document>
+      <source>netlify/functions/scan-wallet.ts</source>
+      <tags></tags>
+      <metadata>
+        <size>2948</size>
+        <lastModified>2025-05-25T23:34:31.173Z</lastModified>
+        <extension>ts</extension>
+        <directory>netlify/functions</directory>
+      </metadata>
+      <content>import { Handler } from &#39;@netlify/functions&#39;
+import { Connection, PublicKey } from &#39;@solana/web3.js&#39;
+
+export const handler: Handler = async (event, context) =&gt; {
+  const headers = {
+    &#39;Access-Control-Allow-Origin&#39;: &#39;*&#39;,
+    &#39;Access-Control-Allow-Headers&#39;: &#39;Content-Type&#39;,
+    &#39;Access-Control-Allow-Methods&#39;: &#39;GET, POST, OPTIONS&#39;,
+  }
+
+  if (event.httpMethod === &#39;OPTIONS&#39;) {
+    return { statusCode: 200, headers, body: &#39;&#39; }
+  }
+
+  if (event.httpMethod !== &#39;POST&#39;) {
+    return {
+      statusCode: 405,
+      headers,
+      body: JSON.stringify({ error: &#39;Method not allowed&#39; }),
+    }
+  }
+
+  try {
+    const { walletAddress } = JSON.parse(event.body || &#39;{}&#39;)
+
+    if (!walletAddress) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: &#39;Wallet address is required&#39; }),
+      }
+    }
+
+    // Validate wallet address
+    new PublicKey(walletAddress)
+
+    const connection = new Connection(
+      process.env.SOLANA_RPC_URL || &#39;https://api.mainnet-beta.solana.com&#39;
+    )
+
+    // Get token accounts
+    const tokenAccounts = await connection.getParsedTokenAccountsByOwner(
+      new PublicKey(walletAddress),
+      {
+        programId: new PublicKey(&#39;TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA&#39;),
+      }
+    )
+
+    const tokens = await Promise.all(
+      tokenAccounts.value.map(async (account) =&gt; {
+        const tokenInfo = account.account.data.parsed.info
+        const mint = tokenInfo.mint
+        const amount = tokenInfo.tokenAmount.uiAmount || 0
+
+        // Basic risk assessment (placeholder logic)
+        let riskLevel: &#39;safe&#39; | &#39;suspicious&#39; | &#39;malicious&#39; = &#39;safe&#39;
+        let issues: string[] = []
+
+        // Check for suspicious patterns
+        if (amount &gt; 1000000) {
+          riskLevel = &#39;suspicious&#39;
+          issues.push(&#39;Unusually high token amount&#39;)
+        }
+
+        // Mock metadata check
+        try {
+          const metadataResponse = await fetch(
+            `https://api.solana.fm/v1/tokens/${mint}`
+          )
+          if (!metadataResponse.ok) {
+            riskLevel = &#39;suspicious&#39;
+            issues.push(&#39;No verified metadata&#39;)
+          }
+        } catch {
+          riskLevel = &#39;suspicious&#39;
+          issues.push(&#39;Metadata fetch failed&#39;)
+        }
+
+        return {
+          mint,
+          amount,
+          riskLevel,
+          issues,
+          symbol: &#39;UNKNOWN&#39;,
+          name: &#39;Unknown Token&#39;,
+        }
+      })
+    )
+
+    const scanResult = {
+      tokens,
+      totalTokens: tokens.length,
+      riskySuggestions: tokens.filter((t) =&gt; t.riskLevel === &#39;suspicious&#39;)
+        .length,
+      maliciousTokens: tokens.filter((t) =&gt; t.riskLevel === &#39;malicious&#39;).length,
+    }
+
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify(scanResult),
+    }
+  } catch (error) {
+    console.error(&#39;Scan error:&#39;, error)
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ error: &#39;Failed to scan wallet&#39; }),
+    }
+  }
+}
+</content>
+    </document>
+
+    <document>
+      <source>src/components/ui/card.tsx</source>
+      <tags></tags>
+      <metadata>
+        <size>1989</size>
+        <lastModified>2025-05-25T23:31:10.373Z</lastModified>
+        <extension>tsx</extension>
+        <directory>src/components/ui</directory>
+      </metadata>
+      <content>import * as React from &quot;react&quot;
+
+import { cn } from &quot;@/lib/utils&quot;
+
+function Card({ className, ...props }: React.ComponentProps&lt;&quot;div&quot;&gt;) {
+  return (
+    &lt;div
+      data-slot=&quot;card&quot;
+      className={cn(
+        &quot;bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm&quot;,
+        className
+      )}
+      {...props}
+    /&gt;
+  )
+}
+
+function CardHeader({ className, ...props }: React.ComponentProps&lt;&quot;div&quot;&gt;) {
+  return (
+    &lt;div
+      data-slot=&quot;card-header&quot;
+      className={cn(
+        &quot;@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6&quot;,
+        className
+      )}
+      {...props}
+    /&gt;
+  )
+}
+
+function CardTitle({ className, ...props }: React.ComponentProps&lt;&quot;div&quot;&gt;) {
+  return (
+    &lt;div
+      data-slot=&quot;card-title&quot;
+      className={cn(&quot;leading-none font-semibold&quot;, className)}
+      {...props}
+    /&gt;
+  )
+}
+
+function CardDescription({ className, ...props }: React.ComponentProps&lt;&quot;div&quot;&gt;) {
+  return (
+    &lt;div
+      data-slot=&quot;card-description&quot;
+      className={cn(&quot;text-muted-foreground text-sm&quot;, className)}
+      {...props}
+    /&gt;
+  )
+}
+
+function CardAction({ className, ...props }: React.ComponentProps&lt;&quot;div&quot;&gt;) {
+  return (
+    &lt;div
+      data-slot=&quot;card-action&quot;
+      className={cn(
+        &quot;col-start-2 row-span-2 row-start-1 self-start justify-self-end&quot;,
+        className
+      )}
+      {...props}
+    /&gt;
+  )
+}
+
+function CardContent({ className, ...props }: React.ComponentProps&lt;&quot;div&quot;&gt;) {
+  return (
+    &lt;div
+      data-slot=&quot;card-content&quot;
+      className={cn(&quot;px-6&quot;, className)}
+      {...props}
+    /&gt;
+  )
+}
+
+function CardFooter({ className, ...props }: React.ComponentProps&lt;&quot;div&quot;&gt;) {
+  return (
+    &lt;div
+      data-slot=&quot;card-footer&quot;
+      className={cn(&quot;flex items-center px-6 [.border-t]:pt-6&quot;, className)}
+      {...props}
+    /&gt;
+  )
+}
+
+export {
+  Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardAction,
+  CardDescription,
+  CardContent,
+}
+</content>
+    </document>
+
+    <document>
+      <source>src/components/ui/button.tsx</source>
+      <tags></tags>
+      <metadata>
+        <size>2123</size>
+        <lastModified>2025-05-25T23:31:10.348Z</lastModified>
+        <extension>tsx</extension>
+        <directory>src/components/ui</directory>
+      </metadata>
+      <content>import * as React from &quot;react&quot;
+import { Slot } from &quot;@radix-ui/react-slot&quot;
+import { cva, type VariantProps } from &quot;class-variance-authority&quot;
+
+import { cn } from &quot;@/lib/utils&quot;
+
+const buttonVariants = cva(
+  &quot;inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=&#39;size-&#39;])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive&quot;,
+  {
+    variants: {
+      variant: {
+        default:
+          &quot;bg-primary text-primary-foreground shadow-xs hover:bg-primary/90&quot;,
+        destructive:
+          &quot;bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60&quot;,
+        outline:
+          &quot;border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50&quot;,
+        secondary:
+          &quot;bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80&quot;,
+        ghost:
+          &quot;hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50&quot;,
+        link: &quot;text-primary underline-offset-4 hover:underline&quot;,
+      },
+      size: {
+        default: &quot;h-9 px-4 py-2 has-[&gt;svg]:px-3&quot;,
+        sm: &quot;h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5&quot;,
+        lg: &quot;h-10 rounded-md px-6 has-[&gt;svg]:px-4&quot;,
+        icon: &quot;size-9&quot;,
+      },
+    },
+    defaultVariants: {
+      variant: &quot;default&quot;,
+      size: &quot;default&quot;,
+    },
+  }
+)
+
+function Button({
+  className,
+  variant,
+  size,
+  asChild = false,
+  ...props
+}: React.ComponentProps&lt;&quot;button&quot;&gt; &amp;
+  VariantProps&lt;typeof buttonVariants&gt; &amp; {
+    asChild?: boolean
+  }) {
+  const Comp = asChild ? Slot : &quot;button&quot;
+
+  return (
+    &lt;Comp
+      data-slot=&quot;button&quot;
+      className={cn(buttonVariants({ variant, size, className }))}
+      {...props}
+    /&gt;
+  )
+}
+
+export { Button, buttonVariants }
+</content>
+    </document>
+
+    <document>
+      <source>src/components/ui/progress.tsx</source>
+      <tags></tags>
+      <metadata>
+        <size>740</size>
+        <lastModified>2025-05-25T23:31:10.409Z</lastModified>
+        <extension>tsx</extension>
+        <directory>src/components/ui</directory>
+      </metadata>
+      <content>&quot;use client&quot;
+
+import * as React from &quot;react&quot;
+import * as ProgressPrimitive from &quot;@radix-ui/react-progress&quot;
+
+import { cn } from &quot;@/lib/utils&quot;
+
+function Progress({
+  className,
+  value,
+  ...props
+}: React.ComponentProps&lt;typeof ProgressPrimitive.Root&gt;) {
+  return (
+    &lt;ProgressPrimitive.Root
+      data-slot=&quot;progress&quot;
+      className={cn(
+        &quot;bg-primary/20 relative h-2 w-full overflow-hidden rounded-full&quot;,
+        className
+      )}
+      {...props}
+    &gt;
+      &lt;ProgressPrimitive.Indicator
+        data-slot=&quot;progress-indicator&quot;
+        className=&quot;bg-primary h-full w-full flex-1 transition-all&quot;
+        style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
+      /&gt;
+    &lt;/ProgressPrimitive.Root&gt;
+  )
+}
+
+export { Progress }
+</content>
+    </document>
+
+    <document>
+      <source>src/components/ui/alert-dialog.tsx</source>
+      <tags></tags>
+      <metadata>
+        <size>3850</size>
+        <lastModified>2025-05-25T23:31:10.402Z</lastModified>
+        <extension>tsx</extension>
+        <directory>src/components/ui</directory>
+      </metadata>
+      <content>import * as React from &quot;react&quot;
+import * as AlertDialogPrimitive from &quot;@radix-ui/react-alert-dialog&quot;
+
+import { cn } from &quot;@/lib/utils&quot;
+import { buttonVariants } from &quot;@/components/ui/button&quot;
+
+function AlertDialog({
+  ...props
+}: React.ComponentProps&lt;typeof AlertDialogPrimitive.Root&gt;) {
+  return &lt;AlertDialogPrimitive.Root data-slot=&quot;alert-dialog&quot; {...props} /&gt;
+}
+
+function AlertDialogTrigger({
+  ...props
+}: React.ComponentProps&lt;typeof AlertDialogPrimitive.Trigger&gt;) {
+  return (
+    &lt;AlertDialogPrimitive.Trigger data-slot=&quot;alert-dialog-trigger&quot; {...props} /&gt;
+  )
+}
+
+function AlertDialogPortal({
+  ...props
+}: React.ComponentProps&lt;typeof AlertDialogPrimitive.Portal&gt;) {
+  return (
+    &lt;AlertDialogPrimitive.Portal data-slot=&quot;alert-dialog-portal&quot; {...props} /&gt;
+  )
+}
+
+function AlertDialogOverlay({
+  className,
+  ...props
+}: React.ComponentProps&lt;typeof AlertDialogPrimitive.Overlay&gt;) {
+  return (
+    &lt;AlertDialogPrimitive.Overlay
+      data-slot=&quot;alert-dialog-overlay&quot;
+      className={cn(
+        &quot;data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50&quot;,
+        className
+      )}
+      {...props}
+    /&gt;
+  )
+}
+
+function AlertDialogContent({
+  className,
+  ...props
+}: React.ComponentProps&lt;typeof AlertDialogPrimitive.Content&gt;) {
+  return (
+    &lt;AlertDialogPortal&gt;
+      &lt;AlertDialogOverlay /&gt;
+      &lt;AlertDialogPrimitive.Content
+        data-slot=&quot;alert-dialog-content&quot;
+        className={cn(
+          &quot;bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg duration-200 sm:max-w-lg&quot;,
+          className
+        )}
+        {...props}
+      /&gt;
+    &lt;/AlertDialogPortal&gt;
+  )
+}
+
+function AlertDialogHeader({
+  className,
+  ...props
+}: React.ComponentProps&lt;&quot;div&quot;&gt;) {
+  return (
+    &lt;div
+      data-slot=&quot;alert-dialog-header&quot;
+      className={cn(&quot;flex flex-col gap-2 text-center sm:text-left&quot;, className)}
+      {...props}
+    /&gt;
+  )
+}
+
+function AlertDialogFooter({
+  className,
+  ...props
+}: React.ComponentProps&lt;&quot;div&quot;&gt;) {
+  return (
+    &lt;div
+      data-slot=&quot;alert-dialog-footer&quot;
+      className={cn(
+        &quot;flex flex-col-reverse gap-2 sm:flex-row sm:justify-end&quot;,
+        className
+      )}
+      {...props}
+    /&gt;
+  )
+}
+
+function AlertDialogTitle({
+  className,
+  ...props
+}: React.ComponentProps&lt;typeof AlertDialogPrimitive.Title&gt;) {
+  return (
+    &lt;AlertDialogPrimitive.Title
+      data-slot=&quot;alert-dialog-title&quot;
+      className={cn(&quot;text-lg font-semibold&quot;, className)}
+      {...props}
+    /&gt;
+  )
+}
+
+function AlertDialogDescription({
+  className,
+  ...props
+}: React.ComponentProps&lt;typeof AlertDialogPrimitive.Description&gt;) {
+  return (
+    &lt;AlertDialogPrimitive.Description
+      data-slot=&quot;alert-dialog-description&quot;
+      className={cn(&quot;text-muted-foreground text-sm&quot;, className)}
+      {...props}
+    /&gt;
+  )
+}
+
+function AlertDialogAction({
+  className,
+  ...props
+}: React.ComponentProps&lt;typeof AlertDialogPrimitive.Action&gt;) {
+  return (
+    &lt;AlertDialogPrimitive.Action
+      className={cn(buttonVariants(), className)}
+      {...props}
+    /&gt;
+  )
+}
+
+function AlertDialogCancel({
+  className,
+  ...props
+}: React.ComponentProps&lt;typeof AlertDialogPrimitive.Cancel&gt;) {
+  return (
+    &lt;AlertDialogPrimitive.Cancel
+      className={cn(buttonVariants({ variant: &quot;outline&quot; }), className)}
+      {...props}
+    /&gt;
+  )
+}
+
+export {
+  AlertDialog,
+  AlertDialogPortal,
+  AlertDialogOverlay,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel,
+}
+</content>
+    </document>
+
+    <document>
+      <source>src/components/ui/badge.tsx</source>
+      <tags></tags>
+      <metadata>
+        <size>1631</size>
+        <lastModified>2025-05-25T23:31:10.381Z</lastModified>
+        <extension>tsx</extension>
+        <directory>src/components/ui</directory>
+      </metadata>
+      <content>import * as React from &quot;react&quot;
+import { Slot } from &quot;@radix-ui/react-slot&quot;
+import { cva, type VariantProps } from &quot;class-variance-authority&quot;
+
+import { cn } from &quot;@/lib/utils&quot;
+
+const badgeVariants = cva(
+  &quot;inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden&quot;,
+  {
+    variants: {
+      variant: {
+        default:
+          &quot;border-transparent bg-primary text-primary-foreground [a&amp;]:hover:bg-primary/90&quot;,
+        secondary:
+          &quot;border-transparent bg-secondary text-secondary-foreground [a&amp;]:hover:bg-secondary/90&quot;,
+        destructive:
+          &quot;border-transparent bg-destructive text-white [a&amp;]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60&quot;,
+        outline:
+          &quot;text-foreground [a&amp;]:hover:bg-accent [a&amp;]:hover:text-accent-foreground&quot;,
+      },
+    },
+    defaultVariants: {
+      variant: &quot;default&quot;,
+    },
+  }
+)
+
+function Badge({
+  className,
+  variant,
+  asChild = false,
+  ...props
+}: React.ComponentProps&lt;&quot;span&quot;&gt; &amp;
+  VariantProps&lt;typeof badgeVariants&gt; &amp; { asChild?: boolean }) {
+  const Comp = asChild ? Slot : &quot;span&quot;
+
+  return (
+    &lt;Comp
+      data-slot=&quot;badge&quot;
+      className={cn(badgeVariants({ variant }), className)}
+      {...props}
+    /&gt;
+  )
+}
+
+export { Badge, badgeVariants }
+</content>
+    </document>
+
+    <document>
+      <source>src/components/WalletScanner.tsx</source>
+      <tags></tags>
+      <metadata>
+        <size>9762</size>
+        <lastModified>2025-05-25T23:37:54.549Z</lastModified>
+        <extension>tsx</extension>
+        <directory>src/components</directory>
+      </metadata>
+      <content>import React, { useState } from &#39;react&#39;;
+import { Connection, PublicKey } from &#39;@solana/web3.js&#39;;
+import { Button } from &#39;@/components/ui/button&#39;;
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from &#39;@/components/ui/card&#39;;
+import { Badge } from &#39;@/components/ui/badge&#39;;
+import { AlertDialog, AlertDialogDescription } from &#39;@/components/ui/alert-dialog&#39;;
+import { Progress } from &#39;@/components/ui/progress&#39;;
+import { Shield, AlertTriangle, CheckCircle, Wallet, RefreshCw } from &#39;lucide-react&#39;;
+
+interface TokenInfo {
+  mint: string;
+  amount: number;
+  symbol?: string;
+  name?: string;
+  image?: string;
+  riskLevel: &#39;safe&#39; | &#39;suspicious&#39; | &#39;malicious&#39;;
+  issues: string[];
+}
+
+interface ScanResult {
+  tokens: TokenInfo[];
+  totalTokens: number;
+  riskySuggestions: number;
+  maliciousTokens: number;
+}
+
+const WalletScanner: React.FC = () =&gt; {
+  const [walletAddress, setWalletAddress] = useState(&#39;&#39;);
+  const [isScanning, setIsScanning] = useState(false);
+  const [scanProgress, setScanProgress] = useState(0);
+  const [scanResult, setScanResult] = useState&lt;ScanResult | null&gt;(null);
+  const [error, setError] = useState(&#39;&#39;);
+
+  const connection = new Connection(&#39;https://api.mainnet-beta.solana.com&#39;);
+
+  const mockScanResult: ScanResult = {
+    tokens: [
+      {
+        mint: &#39;11111111111111111111111111111112&#39;,
+        amount: 1000000,
+        symbol: &#39;SOL&#39;,
+        name: &#39;Solana&#39;,
+        riskLevel: &#39;safe&#39;,
+        issues: []
+      },
+      {
+        mint: &#39;EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v&#39;,
+        amount: 500000000,
+        symbol: &#39;USDC&#39;,
+        name: &#39;USD Coin&#39;,
+        riskLevel: &#39;safe&#39;,
+        issues: []
+      },
+      {
+        mint: &#39;FakeToken123456789&#39;,
+        amount: 999999999,
+        symbol: &#39;SOLANA&#39;,
+        name: &#39;🚀 SOLANA GIVEAWAY 🚀&#39;,
+        riskLevel: &#39;malicious&#39;,
+        issues: [&#39;Suspicious symbol mimicking SOL&#39;, &#39;Excessive supply&#39;, &#39;No verified metadata&#39;]
+      },
+      {
+        mint: &#39;SuspiciousToken987654321&#39;,
+        amount: 1,
+        symbol: &#39;SHIB&#39;,
+        name: &#39;Shiba Inu Clone&#39;,
+        riskLevel: &#39;suspicious&#39;,
+        issues: [&#39;Unverified creator&#39;, &#39;Low liquidity&#39;]
+      }
+    ],
+    totalTokens: 4,
+    riskySuggestions: 1,
+    maliciousTokens: 1
+  };
+
+  const scanWallet = async () =&gt; {
+    if (!walletAddress) return;
+
+    setIsScanning(true);
+    setScanProgress(0);
+    setError(&#39;&#39;);
+
+    try {
+      // Validate address
+      new PublicKey(walletAddress);
+
+      // Simulate scanning progress
+      const progressInterval = setInterval(() =&gt; {
+        setScanProgress(prev =&gt; {
+          if (prev &gt;= 90) {
+            clearInterval(progressInterval);
+            return 90;
+          }
+          return prev + 10;
+        });
+      }, 200);
+
+      // Simulate API call delay
+      await new Promise(resolve =&gt; setTimeout(resolve, 2000));
+
+      setScanProgress(100);
+      setScanResult(mockScanResult);
+
+    } catch (err) {
+      setError(&#39;Invalid wallet address&#39;);
+    } finally {
+      setIsScanning(false);
+    }
+  };
+
+  const getRiskColor = (riskLevel: string) =&gt; {
+    switch (riskLevel) {
+      case &#39;safe&#39;: return &#39;bg-green-100 text-green-800 border-green-200&#39;;
+      case &#39;suspicious&#39;: return &#39;bg-yellow-100 text-yellow-800 border-yellow-200&#39;;
+      case &#39;malicious&#39;: return &#39;bg-red-100 text-red-800 border-red-200&#39;;
+      default: return &#39;bg-gray-100 text-gray-800 border-gray-200&#39;;
+    }
+  };
+
+  const getRiskIcon = (riskLevel: string) =&gt; {
+    switch (riskLevel) {
+      case &#39;safe&#39;: return &lt;CheckCircle className=&quot;w-4 h-4&quot; /&gt;;
+      case &#39;suspicious&#39;: return &lt;AlertTriangle className=&quot;w-4 h-4&quot; /&gt;;
+      case &#39;malicious&#39;: return &lt;Shield className=&quot;w-4 h-4&quot; /&gt;;
+      default: return null;
+    }
+  };
+
+  return (
+    &lt;div className=&quot;max-w-4xl mx-auto p-6 space-y-6&quot;&gt;
+      &lt;div className=&quot;text-center space-y-2&quot;&gt;
+        &lt;h1 className=&quot;text-3xl font-bold flex items-center justify-center gap-2&quot;&gt;
+          &lt;Shield className=&quot;w-8 h-8 text-blue-600&quot; /&gt;
+          Solana Wallet Scanner
+        &lt;/h1&gt;
+        &lt;p className=&quot;text-gray-600&quot;&gt;Protect your wallet from scam tokens and malicious approvals&lt;/p&gt;
+      &lt;/div&gt;
+
+      &lt;Card&gt;
+        &lt;CardHeader&gt;
+          &lt;CardTitle className=&quot;flex items-center gap-2&quot;&gt;
+            &lt;Wallet className=&quot;w-5 h-5&quot; /&gt;
+            Scan Wallet
+          &lt;/CardTitle&gt;
+          &lt;CardDescription&gt;
+            Enter your Solana wallet address to scan for potential security risks
+          &lt;/CardDescription&gt;
+        &lt;/CardHeader&gt;
+        &lt;CardContent className=&quot;space-y-4&quot;&gt;
+          &lt;div className=&quot;flex gap-2&quot;&gt;
+            &lt;input
+              type=&quot;text&quot;
+              placeholder=&quot;Enter Solana wallet address...&quot;
+              value={walletAddress}
+              onChange={(e) =&gt; setWalletAddress(e.target.value)}
+              className=&quot;flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500&quot;
+              disabled={isScanning}
+            /&gt;
+            &lt;Button
+              onClick={scanWallet}
+              disabled={isScanning || !walletAddress}
+              className=&quot;min-w-[100px]&quot;
+            &gt;
+              {isScanning ? (
+                &lt;&gt;
+                  &lt;RefreshCw className=&quot;w-4 h-4 mr-2 animate-spin&quot; /&gt;
+                  Scanning
+                &lt;/&gt;
+              ) : (
+                &#39;Scan Wallet&#39;
+              )}
+            &lt;/Button&gt;
+          &lt;/div&gt;
+
+          {error &amp;&amp; (
+            &lt;AlertDialog className=&quot;border-red-200 bg-red-50&quot;&gt;
+              &lt;AlertTriangle className=&quot;w-4 h-4&quot; /&gt;
+              &lt;AlertDialogDescription className=&quot;text-red-800&quot;&gt;{error}&lt;/AlertDialogDescription&gt;
+            &lt;/AlertDialog&gt;
+          )}
+
+          {isScanning &amp;&amp; (
+            &lt;div className=&quot;space-y-2&quot;&gt;
+              &lt;div className=&quot;flex justify-between text-sm text-gray-600&quot;&gt;
+                &lt;span&gt;Scanning wallet...&lt;/span&gt;
+                &lt;span&gt;{scanProgress}%&lt;/span&gt;
+              &lt;/div&gt;
+              &lt;Progress value={scanProgress} className=&quot;w-full&quot; /&gt;
+            &lt;/div&gt;
+          )}
+        &lt;/CardContent&gt;
+      &lt;/Card&gt;
+
+      {scanResult &amp;&amp; (
+        &lt;div className=&quot;space-y-6&quot;&gt;
+          &lt;div className=&quot;grid grid-cols-1 md:grid-cols-3 gap-4&quot;&gt;
+            &lt;Card&gt;
+              &lt;CardContent className=&quot;pt-6&quot;&gt;
+                &lt;div className=&quot;flex items-center space-x-2&quot;&gt;
+                  &lt;CheckCircle className=&quot;w-5 h-5 text-green-600&quot; /&gt;
+                  &lt;div&gt;
+                    &lt;p className=&quot;text-2xl font-bold&quot;&gt;{scanResult.totalTokens}&lt;/p&gt;
+                    &lt;p className=&quot;text-sm text-gray-600&quot;&gt;Total Tokens&lt;/p&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/CardContent&gt;
+            &lt;/Card&gt;
+
+            &lt;Card&gt;
+              &lt;CardContent className=&quot;pt-6&quot;&gt;
+                &lt;div className=&quot;flex items-center space-x-2&quot;&gt;
+                  &lt;AlertTriangle className=&quot;w-5 h-5 text-yellow-600&quot; /&gt;
+                  &lt;div&gt;
+                    &lt;p className=&quot;text-2xl font-bold text-yellow-600&quot;&gt;{scanResult.riskySuggestions}&lt;/p&gt;
+                    &lt;p className=&quot;text-sm text-gray-600&quot;&gt;Suspicious&lt;/p&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/CardContent&gt;
+            &lt;/Card&gt;
+
+            &lt;Card&gt;
+              &lt;CardContent className=&quot;pt-6&quot;&gt;
+                &lt;div className=&quot;flex items-center space-x-2&quot;&gt;
+                  &lt;Shield className=&quot;w-5 h-5 text-red-600&quot; /&gt;
+                  &lt;div&gt;
+                    &lt;p className=&quot;text-2xl font-bold text-red-600&quot;&gt;{scanResult.maliciousTokens}&lt;/p&gt;
+                    &lt;p className=&quot;text-sm text-gray-600&quot;&gt;Malicious&lt;/p&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/CardContent&gt;
+            &lt;/Card&gt;
+          &lt;/div&gt;
+
+          &lt;Card&gt;
+            &lt;CardHeader&gt;
+              &lt;CardTitle&gt;Token Analysis&lt;/CardTitle&gt;
+              &lt;CardDescription&gt;Review your tokens and take action on risky assets&lt;/CardDescription&gt;
+            &lt;/CardHeader&gt;
+            &lt;CardContent&gt;
+              &lt;div className=&quot;space-y-4&quot;&gt;
+                {scanResult.tokens.map((token, index) =&gt; (
+                  &lt;div key={index} className=&quot;flex items-center justify-between p-4 border rounded-lg&quot;&gt;
+                    &lt;div className=&quot;flex items-center space-x-4&quot;&gt;
+                      &lt;div className=&quot;w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center&quot;&gt;
+                        {token.symbol?.charAt(0) || &#39;?&#39;}
+                      &lt;/div&gt;
+                      &lt;div&gt;
+                        &lt;p className=&quot;font-medium&quot;&gt;{token.name || &#39;Unknown Token&#39;}&lt;/p&gt;
+                        &lt;p className=&quot;text-sm text-gray-600&quot;&gt;{token.symbol}&lt;/p&gt;
+                        &lt;p className=&quot;text-xs text-gray-500&quot;&gt;{token.mint.slice(0, 8)}...&lt;/p&gt;
+                      &lt;/div&gt;
+                    &lt;/div&gt;
+
+                    &lt;div className=&quot;flex items-center space-x-4&quot;&gt;
+                      &lt;div className=&quot;text-right&quot;&gt;
+                        &lt;Badge className={getRiskColor(token.riskLevel)}&gt;
+                          {getRiskIcon(token.riskLevel)}
+                          &lt;span className=&quot;ml-1 capitalize&quot;&gt;{token.riskLevel}&lt;/span&gt;
+                        &lt;/Badge&gt;
+                        {token.issues.length &gt; 0 &amp;&amp; (
+                          &lt;p className=&quot;text-xs text-gray-500 mt-1&quot;&gt;
+                            {token.issues.length} issue{token.issues.length &gt; 1 ? &#39;s&#39; : &#39;&#39;}
+                          &lt;/p&gt;
+                        )}
+                      &lt;/div&gt;
+
+                      {token.riskLevel !== &#39;safe&#39; &amp;&amp; (
+                        &lt;Button variant=&quot;outline&quot; size=&quot;sm&quot;&gt;
+                          Take Action
+                        &lt;/Button&gt;
+                      )}
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                ))}
+              &lt;/div&gt;
+            &lt;/CardContent&gt;
+          &lt;/Card&gt;
+        &lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  );
+};
+
+export default WalletScanner;
+</content>
+    </document>
+
+    <document>
+      <source>src/lib/utils.ts</source>
+      <tags></tags>
+      <metadata>
+        <size>166</size>
+        <lastModified>2025-05-25T23:30:01.393Z</lastModified>
+        <extension>ts</extension>
+        <directory>src/lib</directory>
+      </metadata>
+      <content>import { clsx, type ClassValue } from &quot;clsx&quot;
+import { twMerge } from &quot;tailwind-merge&quot;
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+</content>
+    </document>
+
+    <document>
+      <source>src/App.tsx</source>
+      <tags></tags>
+      <metadata>
+        <size>210</size>
+        <lastModified>2025-05-25T23:33:36.073Z</lastModified>
+        <extension>tsx</extension>
+        <directory>src</directory>
+      </metadata>
+      <content>import WalletScanner from &#39;./components/WalletScanner&#39;
+import &#39;./App.css&#39;
+
+function App() {
+  return (
+    &lt;div className=&quot;min-h-screen bg-gray-50&quot;&gt;
+      &lt;WalletScanner /&gt;
+    &lt;/div&gt;
+  )
+}
+
+export default App
+</content>
+    </document>
+
+    <document>
+      <source>src/main.tsx</source>
+      <tags></tags>
+      <metadata>
+        <size>230</size>
+        <lastModified>2025-05-25T23:14:23.885Z</lastModified>
+        <extension>tsx</extension>
+        <directory>src</directory>
+      </metadata>
+      <content>import { StrictMode } from &#39;react&#39;
+import { createRoot } from &#39;react-dom/client&#39;
+import &#39;./index.css&#39;
+import App from &#39;./App.tsx&#39;
+
+createRoot(document.getElementById(&#39;root&#39;)!).render(
+  &lt;StrictMode&gt;
+    &lt;App /&gt;
+  &lt;/StrictMode&gt;,
+)
+</content>
+    </document>
+
+    <document>
+      <source>src/App.css</source>
+      <tags></tags>
+      <metadata>
+        <size>606</size>
+        <lastModified>2025-05-25T23:14:23.882Z</lastModified>
+        <extension>css</extension>
+        <directory>src</directory>
+      </metadata>
+      <content>#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+</content>
+    </document>
+
+    <document>
+      <source>src/index.css</source>
+      <tags></tags>
+      <metadata>
+        <size>4064</size>
+        <lastModified>2025-05-25T23:29:53.287Z</lastModified>
+        <extension>css</extension>
+        <directory>src</directory>
+      </metadata>
+      <content>@import &quot;tailwindcss&quot;;
+
+@custom-variant dark (&amp;:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+</content>
+    </document>
+
+    <document>
+      <source>src/vite-env.d.ts</source>
+      <tags></tags>
+      <metadata>
+        <size>38</size>
+        <lastModified>2025-05-25T23:14:23.886Z</lastModified>
+        <extension>ts</extension>
+        <directory>src</directory>
+      </metadata>
+      <content>/// &lt;reference types=&quot;vite/client&quot; /&gt;
+</content>
+    </document>
+
+    <document>
+      <source>tsconfig.node.json</source>
+      <tags></tags>
+      <metadata>
+        <size>630</size>
+        <lastModified>2025-05-25T23:14:23.888Z</lastModified>
+        <extension>json</extension>
+        <directory>Root</directory>
+      </metadata>
+      <content>{
+  &quot;compilerOptions&quot;: {
+    &quot;tsBuildInfoFile&quot;: &quot;./node_modules/.tmp/tsconfig.node.tsbuildinfo&quot;,
+    &quot;target&quot;: &quot;ES2022&quot;,
+    &quot;lib&quot;: [&quot;ES2023&quot;],
+    &quot;module&quot;: &quot;ESNext&quot;,
+    &quot;skipLibCheck&quot;: true,
+
+    /* Bundler mode */
+    &quot;moduleResolution&quot;: &quot;bundler&quot;,
+    &quot;allowImportingTsExtensions&quot;: true,
+    &quot;verbatimModuleSyntax&quot;: true,
+    &quot;moduleDetection&quot;: &quot;force&quot;,
+    &quot;noEmit&quot;: true,
+
+    /* Linting */
+    &quot;strict&quot;: true,
+    &quot;noUnusedLocals&quot;: true,
+    &quot;noUnusedParameters&quot;: true,
+    &quot;erasableSyntaxOnly&quot;: true,
+    &quot;noFallthroughCasesInSwitch&quot;: true,
+    &quot;noUncheckedSideEffectImports&quot;: true
+  },
+  &quot;include&quot;: [&quot;vite.config.ts&quot;]
+}
+</content>
+    </document>
+
+    <document>
+      <source>netlify.toml</source>
+      <tags></tags>
+      <metadata>
+        <size>210</size>
+        <lastModified>2025-05-25T23:34:55.264Z</lastModified>
+        <extension>toml</extension>
+        <directory>Root</directory>
+      </metadata>
+      <content>[build]
+  publish = &quot;dist&quot;
+  command = &quot;npm run build&quot;
+
+[functions]
+  directory = &quot;netlify/functions&quot;
+
+[[redirects]]
+  from = &quot;/*&quot;
+  to = &quot;/index.html&quot;
+  status = 200
+
+[build.environment]
+  NODE_VERSION = &quot;18&quot;
+</content>
+    </document>
+
+    <document>
+      <source>tailwind.config.js</source>
+      <tags></tags>
+      <metadata>
+        <size>182</size>
+        <lastModified>2025-05-25T23:26:03.230Z</lastModified>
+        <extension>js</extension>
+        <directory>Root</directory>
+      </metadata>
+      <content>/** @type {import(&#39;tailwindcss&#39;).Config} */
+export default {
+  content: [
+    &quot;./index.html&quot;,
+    &quot;./src/**/*.{js,ts,jsx,tsx}&quot;,
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+</content>
+    </document>
+
+    <document>
+      <source>README.md</source>
+      <tags></tags>
+      <metadata>
+        <size>18</size>
+        <lastModified>2025-05-25T23:40:54.052Z</lastModified>
+        <extension>md</extension>
+        <directory>Root</directory>
+      </metadata>
+      <content>todo: make readme
+</content>
+    </document>
+
+    <document>
+      <source>.gitignore</source>
+      <tags></tags>
+      <metadata>
+        <size>253</size>
+        <lastModified>2025-05-25T23:14:23.877Z</lastModified>
+        <extension>gitignore</extension>
+        <directory>Root</directory>
+      </metadata>
+      <content># Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+</content>
+    </document>
+
+    <document>
+      <source>tsconfig.app.json</source>
+      <tags></tags>
+      <metadata>
+        <size>576</size>
+        <lastModified>2025-05-25T23:26:32.728Z</lastModified>
+        <extension>json</extension>
+        <directory>Root</directory>
+      </metadata>
+      <content>{
+  &quot;compilerOptions&quot;: {
+    &quot;target&quot;: &quot;ES2020&quot;,
+    &quot;useDefineForClassFields&quot;: true,
+    &quot;lib&quot;: [&quot;ES2020&quot;, &quot;DOM&quot;, &quot;DOM.Iterable&quot;],
+    &quot;module&quot;: &quot;ESNext&quot;,
+    &quot;skipLibCheck&quot;: true,
+    &quot;moduleResolution&quot;: &quot;bundler&quot;,
+    &quot;allowImportingTsExtensions&quot;: true,
+    &quot;isolatedModules&quot;: true,
+    &quot;moduleDetection&quot;: &quot;force&quot;,
+    &quot;noEmit&quot;: true,
+    &quot;jsx&quot;: &quot;react-jsx&quot;,
+    &quot;strict&quot;: true,
+    &quot;noUnusedLocals&quot;: true,
+    &quot;noUnusedParameters&quot;: true,
+    &quot;noFallthroughCasesInSwitch&quot;: true,
+    &quot;baseUrl&quot;: &quot;.&quot;,
+    &quot;paths&quot;: {
+      &quot;@/*&quot;: [&quot;./src/*&quot;]
+    }
+  },
+  &quot;include&quot;: [&quot;src&quot;]
+}
+</content>
+    </document>
+
+    <document>
+      <source>package.json</source>
+      <tags></tags>
+      <metadata>
+        <size>1462</size>
+        <lastModified>2025-05-25T23:35:12.355Z</lastModified>
+        <extension>json</extension>
+        <directory>Root</directory>
+      </metadata>
+      <content>{
+  &quot;name&quot;: &quot;solana-wallet-scanner&quot;,
+  &quot;private&quot;: true,
+  &quot;version&quot;: &quot;0.0.0&quot;,
+  &quot;type&quot;: &quot;module&quot;,
+  &quot;scripts&quot;: {
+    &quot;dev&quot;: &quot;vite&quot;,
+    &quot;build&quot;: &quot;tsc -b &amp;&amp; vite build&quot;,
+    &quot;lint&quot;: &quot;eslint .&quot;,
+    &quot;preview&quot;: &quot;vite preview&quot;,
+    &quot;netlify&quot;: &quot;netlify dev&quot;
+  },
+  &quot;dependencies&quot;: {
+    &quot;@netlify/functions&quot;: &quot;^3.1.9&quot;,
+    &quot;@radix-ui/react-alert-dialog&quot;: &quot;^1.1.14&quot;,
+    &quot;@radix-ui/react-progress&quot;: &quot;^1.1.7&quot;,
+    &quot;@radix-ui/react-slot&quot;: &quot;^1.2.3&quot;,
+    &quot;@solana/wallet-adapter-base&quot;: &quot;^0.9.26&quot;,
+    &quot;@solana/wallet-adapter-react&quot;: &quot;^0.15.38&quot;,
+    &quot;@solana/wallet-adapter-react-ui&quot;: &quot;^0.9.38&quot;,
+    &quot;@solana/wallet-adapter-wallets&quot;: &quot;^0.19.36&quot;,
+    &quot;@solana/web3.js&quot;: &quot;^1.98.2&quot;,
+    &quot;@tailwindcss/vite&quot;: &quot;^4.1.7&quot;,
+    &quot;class-variance-authority&quot;: &quot;^0.7.1&quot;,
+    &quot;clsx&quot;: &quot;^2.1.1&quot;,
+    &quot;lucide-react&quot;: &quot;^0.511.0&quot;,
+    &quot;react&quot;: &quot;^19.1.0&quot;,
+    &quot;react-dom&quot;: &quot;^19.1.0&quot;,
+    &quot;tailwind-merge&quot;: &quot;^3.3.0&quot;
+  },
+  &quot;devDependencies&quot;: {
+    &quot;@eslint/js&quot;: &quot;^9.25.0&quot;,
+    &quot;@types/node&quot;: &quot;^22.15.21&quot;,
+    &quot;@types/react&quot;: &quot;^19.1.2&quot;,
+    &quot;@types/react-dom&quot;: &quot;^19.1.2&quot;,
+    &quot;@vitejs/plugin-react&quot;: &quot;^4.4.1&quot;,
+    &quot;autoprefixer&quot;: &quot;^10.4.21&quot;,
+    &quot;eslint&quot;: &quot;^9.25.0&quot;,
+    &quot;eslint-plugin-react-hooks&quot;: &quot;^5.2.0&quot;,
+    &quot;eslint-plugin-react-refresh&quot;: &quot;^0.4.19&quot;,
+    &quot;globals&quot;: &quot;^16.0.0&quot;,
+    &quot;postcss&quot;: &quot;^8.5.3&quot;,
+    &quot;tailwindcss&quot;: &quot;^4.1.7&quot;,
+    &quot;tailwindcss-animate&quot;: &quot;^1.0.7&quot;,
+    &quot;tw-animate-css&quot;: &quot;^1.3.0&quot;,
+    &quot;typescript&quot;: &quot;~5.8.3&quot;,
+    &quot;typescript-eslint&quot;: &quot;^8.30.1&quot;,
+    &quot;vite&quot;: &quot;^6.3.5&quot;
+  }
+}
+</content>
+    </document>
+
+    <document>
+      <source>vite.config.ts</source>
+      <tags></tags>
+      <metadata>
+        <size>327</size>
+        <lastModified>2025-05-25T23:29:33.575Z</lastModified>
+        <extension>ts</extension>
+        <directory>Root</directory>
+      </metadata>
+      <content>import path from &#39;path&#39;
+import tailwindcss from &#39;@tailwindcss/vite&#39;
+import react from &#39;@vitejs/plugin-react&#39;
+import { defineConfig } from &#39;vite&#39;
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+  resolve: {
+    alias: {
+      &#39;@&#39;: path.resolve(__dirname, &#39;./src&#39;),
+    },
+  },
+})
+</content>
+    </document>
+
+    <document>
+      <source>eslint.config.js</source>
+      <tags></tags>
+      <metadata>
+        <size>734</size>
+        <lastModified>2025-05-25T23:14:23.878Z</lastModified>
+        <extension>js</extension>
+        <directory>Root</directory>
+      </metadata>
+      <content>import js from &#39;@eslint/js&#39;
+import globals from &#39;globals&#39;
+import reactHooks from &#39;eslint-plugin-react-hooks&#39;
+import reactRefresh from &#39;eslint-plugin-react-refresh&#39;
+import tseslint from &#39;typescript-eslint&#39;
+
+export default tseslint.config(
+  { ignores: [&#39;dist&#39;] },
+  {
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
+    files: [&#39;**/*.{ts,tsx}&#39;],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser,
+    },
+    plugins: {
+      &#39;react-hooks&#39;: reactHooks,
+      &#39;react-refresh&#39;: reactRefresh,
+    },
+    rules: {
+      ...reactHooks.configs.recommended.rules,
+      &#39;react-refresh/only-export-components&#39;: [
+        &#39;warn&#39;,
+        { allowConstantExport: true },
+      ],
+    },
+  },
+)
+</content>
+    </document>
+
+    <document>
+      <source>index.html</source>
+      <tags></tags>
+      <metadata>
+        <size>366</size>
+        <lastModified>2025-05-25T23:14:23.878Z</lastModified>
+        <extension>html</extension>
+        <directory>Root</directory>
+      </metadata>
+      <content>&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+    &lt;link rel=&quot;icon&quot; type=&quot;image/svg+xml&quot; href=&quot;/vite.svg&quot; /&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+    &lt;title&gt;Vite + React + TS&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id=&quot;root&quot;&gt;&lt;/div&gt;
+    &lt;script type=&quot;module&quot; src=&quot;/src/main.tsx&quot;&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</content>
+    </document>
+
+    <document>
+      <source>tsconfig.json</source>
+      <tags></tags>
+      <metadata>
+        <size>233</size>
+        <lastModified>2025-05-25T23:26:14.688Z</lastModified>
+        <extension>json</extension>
+        <directory>Root</directory>
+      </metadata>
+      <content>{
+  &quot;files&quot;: [],
+  &quot;references&quot;: [
+    {
+      &quot;path&quot;: &quot;./tsconfig.app.json&quot;
+    },
+    {
+      &quot;path&quot;: &quot;./tsconfig.node.json&quot;
+    }
+  ],
+  &quot;compilerOptions&quot;: {
+    &quot;baseUrl&quot;: &quot;.&quot;,
+    &quot;paths&quot;: {
+      &quot;@/*&quot;: [&quot;./src/*&quot;]
+    }
+  }
+}
+</content>
+    </document>
+
+    <document>
+      <source>components.json</source>
+      <tags></tags>
+      <metadata>
+        <size>443</size>
+        <lastModified>2025-05-25T23:29:52.750Z</lastModified>
+        <extension>json</extension>
+        <directory>Root</directory>
+      </metadata>
+      <content>{
+  &quot;$schema&quot;: &quot;https://ui.shadcn.com/schema.json&quot;,
+  &quot;style&quot;: &quot;new-york&quot;,
+  &quot;rsc&quot;: false,
+  &quot;tsx&quot;: true,
+  &quot;tailwind&quot;: {
+    &quot;config&quot;: &quot;tailwind.config.js&quot;,
+    &quot;css&quot;: &quot;src/index.css&quot;,
+    &quot;baseColor&quot;: &quot;neutral&quot;,
+    &quot;cssVariables&quot;: true,
+    &quot;prefix&quot;: &quot;&quot;
+  },
+  &quot;aliases&quot;: {
+    &quot;components&quot;: &quot;@/components&quot;,
+    &quot;utils&quot;: &quot;@/lib/utils&quot;,
+    &quot;ui&quot;: &quot;@/components/ui&quot;,
+    &quot;lib&quot;: &quot;@/lib&quot;,
+    &quot;hooks&quot;: &quot;@/hooks&quot;
+  },
+  &quot;iconLibrary&quot;: &quot;lucide&quot;
+}</content>
+    </document>
+    
+  </documents>
+
+</bundle>
