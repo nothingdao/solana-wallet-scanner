@@ -1,274 +1,270 @@
 import { Handler } from '@netlify/functions'
 import { Connection, PublicKey } from '@solana/web3.js'
-import { TOKEN_PROGRAM_ID } from '@solana/spl-token'
+import { TOKEN_PROGRAM_ID, getAccount } from '@solana/spl-token'
 
-// Known scam token database - in production, this would be a proper database
-const KNOWN_SCAM_TOKENS = new Set([
-  'FakeToken123456789',
-  'SuspiciousToken987654321',
-  '9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM',
-  // Add more known scam tokens here
-])
-
-const SUSPICIOUS_KEYWORDS = [
-  'giveaway',
-  'free',
-  'airdrop',
-  'claim',
-  'winner',
-  'bonus',
-  'reward',
-  'prize',
-  'lottery',
-  'jackpot',
-  '🚀',
-  '💰',
-  '🎁',
-  'tesla',
-  'musk',
-  'official',
-  'verified',
+// Enhanced token metadata sources
+const METADATA_SOURCES = [
+  {
+    name: 'Jupiter Token List',
+    url: 'https://token.jup.ag/all',
+    cache: null as any,
+    parser: (data: any, mint: string) => {
+      const token = data.find((t: any) => t.address === mint)
+      return token
+        ? {
+            name: token.name,
+            symbol: token.symbol,
+            image: token.logoURI,
+            decimals: token.decimals,
+            description: token.description,
+            website: token.extensions?.website,
+            twitter: token.extensions?.twitter,
+            coingeckoId: token.extensions?.coingeckoId,
+            verified: token.verified || false,
+          }
+        : null
+    },
+  },
+  {
+    name: 'Solana Token List',
+    url: 'https://raw.githubusercontent.com/solana-labs/token-list/main/src/tokens/solana.tokenlist.json',
+    cache: null as any,
+    parser: (data: any, mint: string) => {
+      const token = data.tokens?.find((t: any) => t.address === mint)
+      return token
+        ? {
+            name: token.name,
+            symbol: token.symbol,
+            image: token.logoURI,
+            decimals: token.decimals,
+            verified: true, // Solana official list
+          }
+        : null
+    },
+  },
+  {
+    name: 'CoinGecko',
+    url: `https://api.coingecko.com/api/v3/coins/solana/contract/{mint}`,
+    cache: new Map(),
+    parser: (data: any, mint: string) => {
+      if (data.error) return null
+      return {
+        name: data.name,
+        symbol: data.symbol?.toUpperCase(),
+        image: data.image?.large || data.image?.small,
+        description: data.description?.en,
+        website: data.links?.homepage?.[0],
+        twitter: data.links?.twitter_screen_name
+          ? `https://twitter.com/${data.links.twitter_screen_name}`
+          : null,
+        marketCap: data.market_data?.market_cap?.usd,
+        price: data.market_data?.current_price?.usd,
+        priceChange24h: data.market_data?.price_change_percentage_24h,
+        verified: true,
+      }
+    },
+  },
+  {
+    name: 'DexScreener',
+    url: 'https://api.dexscreener.com/latest/dex/tokens/{mint}',
+    cache: new Map(),
+    parser: (data: any, mint: string) => {
+      const pair = data.pairs?.[0]
+      if (!pair) return null
+      return {
+        name: pair.baseToken.name,
+        symbol: pair.baseToken.symbol,
+        price: parseFloat(pair.priceUsd) || 0,
+        priceChange24h: parseFloat(pair.priceChange?.h24) || 0,
+        volume24h: parseFloat(pair.volume?.h24) || 0,
+        liquidity: parseFloat(pair.liquidity?.usd) || 0,
+        marketCap: parseFloat(pair.fdv) || 0,
+        dexScreenerUrl: pair.url,
+      }
+    },
+  },
 ]
 
-// Common token impersonation targets
-const COMMON_TOKENS = {
-  SOL: '11111111111111111111111111111112',
-  USDC: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
-  USDT: 'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB',
-  RAY: '4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R',
-  SRM: 'SRMuApVNdxXokk5GT7XD5cUUgXMBCoAz2LHeuAoKWRt',
+// Token price and market data
+async function getTokenPriceData(mint: string) {
+  try {
+    const promises = [
+      // CoinGecko
+      fetch(
+        `https://api.coingecko.com/api/v3/simple/token_price/solana?contract_addresses=${mint}&vs_currencies=usd&include_24hr_change=true&include_market_cap=true`
+      ),
+      // DexScreener
+      fetch(`https://api.dexscreener.com/latest/dex/tokens/${mint}`),
+    ]
+
+    const [coingeckoRes, dexRes] = await Promise.allSettled(promises)
+
+    let priceData: any = {}
+
+    // Parse CoinGecko data
+    if (coingeckoRes.status === 'fulfilled' && coingeckoRes.value.ok) {
+      const cgData = await coingeckoRes.value.json()
+      const tokenData = cgData[mint.toLowerCase()]
+      if (tokenData) {
+        priceData.price = tokenData.usd
+        priceData.priceChange24h = tokenData.usd_24h_change
+        priceData.marketCap = tokenData.usd_market_cap
+      }
+    }
+
+    // Parse DexScreener data
+    if (dexRes.status === 'fulfilled' && dexRes.value.ok) {
+      const dsData = await dexRes.value.json()
+      const pair = dsData.pairs?.[0]
+      if (pair) {
+        priceData.price = priceData.price || parseFloat(pair.priceUsd)
+        priceData.volume24h = parseFloat(pair.volume?.h24) || 0
+        priceData.liquidity = parseFloat(pair.liquidity?.usd) || 0
+        priceData.dexScreenerUrl = pair.url
+      }
+    }
+
+    return priceData
+  } catch (error) {
+    console.warn('Failed to fetch price data:', error)
+    return {}
+  }
 }
 
-interface TokenMetadata {
-  name?: string
-  symbol?: string
-  image?: string
-  description?: string
-  website?: string
-  twitter?: string
-}
+// Enhanced metadata fetching with multiple sources
+async function fetchEnhancedTokenMetadata(mint: string) {
+  const metadata: any = {
+    mint,
+    name: null,
+    symbol: null,
+    image: null,
+    decimals: null,
+    description: null,
+    website: null,
+    twitter: null,
+    verified: false,
+    price: null,
+    priceChange24h: null,
+    marketCap: null,
+    volume24h: null,
+    liquidity: null,
+  }
 
-interface TokenInfo {
-  mint: string
-  amount: number
-  decimals: number
-  uiAmount: number
-  symbol?: string
-  name?: string
-  image?: string
-  riskLevel: 'safe' | 'suspicious' | 'malicious'
-  issues: string[]
-  delegate?: string
-  closeAuthority?: string
-  freezeAuthority?: string
-  supply?: number
-}
+  // Fetch from Jupiter Token List (most comprehensive for Solana)
+  try {
+    const jupiterRes = await fetch('https://token.jup.ag/all')
+    if (jupiterRes.ok) {
+      const jupiterTokens = await jupiterRes.json()
+      const token = jupiterTokens.find((t: any) => t.address === mint)
+      if (token) {
+        metadata.name = token.name
+        metadata.symbol = token.symbol
+        metadata.image = token.logoURI
+        metadata.decimals = token.decimals
+        metadata.verified = token.verified || false
+        metadata.description = token.description
+        if (token.extensions) {
+          metadata.website = token.extensions.website
+          metadata.twitter = token.extensions.twitter
+          metadata.coingeckoId = token.extensions.coingeckoId
+        }
+      }
+    }
+  } catch (error) {
+    console.warn('Jupiter API failed:', error)
+  }
 
-interface NFTInfo {
-  mint: string
-  name?: string
-  image?: string
-  collection?: string
-  riskLevel: 'safe' | 'suspicious' | 'malicious'
-  issues: string[]
-}
-
-interface ScanResult {
-  tokens: TokenInfo[]
-  nfts: NFTInfo[]
-  totalTokens: number
-  totalNFTs: number
-  suspiciousTokens: number
-  maliciousTokens: number
-  delegateApprovals: number
-  riskScore: number
-  recommendations: string[]
-}
-
-// Fetch token metadata from multiple sources
-async function fetchTokenMetadata(mint: string): Promise<TokenMetadata> {
-  const sources = [
-    {
-      url: `https://api.solana.fm/v1/tokens/${mint}`,
-      parser: (data: any) => ({
-        name: data.name,
-        symbol: data.symbol,
-        image: data.image,
-        description: data.description,
-      }),
-    },
-    {
-      url: `https://public-api.solscan.io/token/meta?tokenAddress=${mint}`,
-      parser: (data: any) => ({
-        name: data.name,
-        symbol: data.symbol,
-        image: data.icon,
-        description: data.description,
-      }),
-    },
-  ]
-
-  for (const source of sources) {
+  // Fallback to Solana Token List for official tokens
+  if (!metadata.name) {
     try {
-      const response = await fetch(source.url, {
-        headers: {
-          'User-Agent': 'Solana-Wallet-Scanner/1.0',
-        },
-      })
-
-      if (response.ok) {
-        const data = await response.json()
-        const metadata = source.parser(data)
-        if (metadata.name || metadata.symbol) {
-          return metadata
+      const solanaListRes = await fetch(
+        'https://raw.githubusercontent.com/solana-labs/token-list/main/src/tokens/solana.tokenlist.json'
+      )
+      if (solanaListRes.ok) {
+        const solanaList = await solanaListRes.json()
+        const token = solanaList.tokens?.find((t: any) => t.address === mint)
+        if (token) {
+          metadata.name = token.name
+          metadata.symbol = token.symbol
+          metadata.image = token.logoURI
+          metadata.decimals = token.decimals
+          metadata.verified = true // Official Solana list
         }
       }
     } catch (error) {
-      console.warn(`Failed to fetch metadata from ${source.url}:`, error)
-      continue
+      console.warn('Solana token list failed:', error)
     }
   }
 
-  return {}
+  // Get price and market data
+  const priceData = await getTokenPriceData(mint)
+  Object.assign(metadata, priceData)
+
+  // Try to get on-chain metadata for NFTs/custom tokens
+  if (!metadata.name) {
+    try {
+      // This would require additional libraries like @metaplex-foundation/mpl-token-metadata
+      // For now, we'll use placeholder logic
+      metadata.name = 'Unknown Token'
+      metadata.symbol = 'UNKNOWN'
+    } catch (error) {
+      console.warn('On-chain metadata failed:', error)
+    }
+  }
+
+  return metadata
 }
 
-// Assess token risk level
-function assessTokenRisk(
-  mint: string,
-  metadata: TokenMetadata,
-  tokenAccount: any,
-  supply?: number
-): { riskLevel: 'safe' | 'suspicious' | 'malicious'; issues: string[] } {
+// Enhanced risk assessment with price/liquidity data
+function assessEnhancedTokenRisk(metadata: any, tokenAccount: any) {
   const issues: string[] = []
   let riskLevel: 'safe' | 'suspicious' | 'malicious' = 'safe'
 
-  // Check against known scam list
-  if (KNOWN_SCAM_TOKENS.has(mint)) {
-    return { riskLevel: 'malicious', issues: ['Known scam token'] }
-  }
-
-  // Check for missing metadata
+  // Previous risk checks
   if (!metadata.name && !metadata.symbol) {
     riskLevel = 'suspicious'
     issues.push('No metadata available')
   }
 
-  // Check for suspicious keywords
-  const nameToCheck = (metadata.name || '').toLowerCase()
-  const symbolToCheck = (metadata.symbol || '').toLowerCase()
-  const descToCheck = (metadata.description || '').toLowerCase()
-
-  for (const keyword of SUSPICIOUS_KEYWORDS) {
-    if (
-      nameToCheck.includes(keyword) ||
-      symbolToCheck.includes(keyword) ||
-      descToCheck.includes(keyword)
-    ) {
-      riskLevel = riskLevel === 'safe' ? 'suspicious' : riskLevel
-      issues.push(`Contains suspicious keyword: "${keyword}"`)
-    }
+  // New financial risk indicators
+  if (metadata.price && metadata.price < 0.0001) {
+    riskLevel = riskLevel === 'safe' ? 'suspicious' : riskLevel
+    issues.push('Extremely low token price')
   }
 
-  // Check for token impersonation
-  for (const [commonSymbol, legitimateMint] of Object.entries(COMMON_TOKENS)) {
-    if (
-      metadata.symbol?.toUpperCase() === commonSymbol &&
-      mint !== legitimateMint
-    ) {
-      riskLevel = 'malicious'
-      issues.push(`Attempting to impersonate ${commonSymbol}`)
-    }
+  if (metadata.liquidity && metadata.liquidity < 1000) {
+    riskLevel = riskLevel === 'safe' ? 'suspicious' : riskLevel
+    issues.push('Very low liquidity')
   }
 
-  // Check for delegate authority
+  if (metadata.volume24h !== null && metadata.volume24h < 100) {
+    riskLevel = riskLevel === 'safe' ? 'suspicious' : riskLevel
+    issues.push('Very low trading volume')
+  }
+
+  // Check for verified status
+  if (!metadata.verified && metadata.price && metadata.price > 0) {
+    riskLevel = riskLevel === 'safe' ? 'suspicious' : riskLevel
+    issues.push('Unverified token with market activity')
+  }
+
+  // Delegate check
   if (tokenAccount.delegate) {
     riskLevel = riskLevel === 'safe' ? 'suspicious' : riskLevel
     issues.push('Has active delegate approval')
   }
 
-  // Check for freeze authority (potential rug pull vector)
-  if (tokenAccount.freezeAuthority && tokenAccount.freezeAuthority !== mint) {
-    riskLevel = riskLevel === 'safe' ? 'suspicious' : riskLevel
-    issues.push('Token can be frozen by external authority')
-  }
-
-  // Check for extremely high supply
-  if (supply && supply > 1000000000000) {
-    riskLevel = riskLevel === 'safe' ? 'suspicious' : riskLevel
-    issues.push('Extremely high token supply')
-  }
-
-  // Check for zero decimal tokens (potential NFT spam)
-  if (tokenAccount.decimals === 0 && tokenAccount.uiAmount > 1000) {
+  // Check for potential rug pull indicators
+  if (
+    metadata.liquidity &&
+    metadata.marketCap &&
+    metadata.liquidity > metadata.marketCap * 2
+  ) {
     riskLevel = 'suspicious'
-    issues.push('High quantity of non-divisible tokens')
-  }
-
-  // Check for suspicious Unicode characters
-  if (metadata.name && /[\u200B-\u200D\uFEFF]/.test(metadata.name)) {
-    riskLevel = 'suspicious'
-    issues.push('Contains invisible Unicode characters')
+    issues.push('Liquidity significantly higher than market cap')
   }
 
   return { riskLevel, issues }
-}
-
-// Calculate overall risk score
-function calculateRiskScore(tokens: TokenInfo[], nfts: NFTInfo[]): number {
-  const allAssets = [...tokens, ...nfts]
-  if (allAssets.length === 0) return 0
-
-  let totalRiskPoints = 0
-  for (const asset of allAssets) {
-    switch (asset.riskLevel) {
-      case 'malicious':
-        totalRiskPoints += 10
-        break
-      case 'suspicious':
-        totalRiskPoints += 5
-        break
-      case 'safe':
-        totalRiskPoints += 0
-        break
-    }
-  }
-
-  // Normalize to 0-100 scale
-  const maxPossibleRisk = allAssets.length * 10
-  return Math.round((totalRiskPoints / maxPossibleRisk) * 100)
-}
-
-// Generate security recommendations
-function generateRecommendations(scanResult: Partial<ScanResult>): string[] {
-  const recommendations: string[] = []
-
-  if (scanResult.maliciousTokens && scanResult.maliciousTokens > 0) {
-    recommendations.push(
-      '🚨 Immediately close accounts containing malicious tokens'
-    )
-    recommendations.push(
-      '🔍 Review recent transactions for unauthorized activity'
-    )
-  }
-
-  if (scanResult.delegateApprovals && scanResult.delegateApprovals > 0) {
-    recommendations.push('⚠️ Revoke unnecessary token delegate approvals')
-    recommendations.push('🔒 Only approve delegates from trusted protocols')
-  }
-
-  if (scanResult.suspiciousTokens && scanResult.suspiciousTokens > 0) {
-    recommendations.push('🔍 Research suspicious tokens before interacting')
-    recommendations.push(
-      '📊 Check token metrics on Solscan or similar explorers'
-    )
-  }
-
-  // General security recommendations
-  recommendations.push('🛡️ Use a hardware wallet for large holdings')
-  recommendations.push('🔄 Regularly scan your wallet for new threats')
-  recommendations.push('📱 Be cautious of unexpected tokens or NFTs')
-
-  return recommendations
 }
 
 export const handler: Handler = async (event, context) => {
@@ -301,18 +297,7 @@ export const handler: Handler = async (event, context) => {
       }
     }
 
-    // Validate wallet address
-    let publicKey: PublicKey
-    try {
-      publicKey = new PublicKey(walletAddress)
-    } catch (error) {
-      return {
-        statusCode: 400,
-        headers,
-        body: JSON.stringify({ error: 'Invalid wallet address' }),
-      }
-    }
-
+    const publicKey = new PublicKey(walletAddress)
     const connection = new Connection(
       process.env.SOLANA_RPC_URL || 'https://api.mainnet-beta.solana.com'
     )
@@ -323,62 +308,84 @@ export const handler: Handler = async (event, context) => {
       { programId: TOKEN_PROGRAM_ID }
     )
 
-    const tokens: TokenInfo[] = []
-    const nfts: NFTInfo[] = []
+    const tokens = []
+    const nfts = []
     let delegateCount = 0
 
-    // Process each token account
+    // Process each token account with enhanced metadata
     for (const account of tokenAccounts.value) {
       const tokenInfo = account.account.data.parsed.info
 
-      // Skip accounts with zero balance
+      // Skip zero balance accounts
       if (tokenInfo.tokenAmount.uiAmount === 0) continue
 
       const mint = tokenInfo.mint
 
-      // Fetch metadata
-      const metadata = await fetchTokenMetadata(mint)
+      // Fetch enhanced metadata
+      const metadata = await fetchEnhancedTokenMetadata(mint)
 
-      // Check if it's an NFT (decimals = 0, amount = 1)
+      // Determine if it's an NFT
       const isNFT =
         tokenInfo.tokenAmount.decimals === 0 &&
         tokenInfo.tokenAmount.uiAmount === 1
 
-      // Count delegate approvals
+      // Count delegates
       if (tokenInfo.delegate) {
         delegateCount++
       }
 
-      // Assess risk
-      const { riskLevel, issues } = assessTokenRisk(mint, metadata, tokenInfo)
+      // Enhanced risk assessment
+      const { riskLevel, issues } = assessEnhancedTokenRisk(metadata, tokenInfo)
+
+      const tokenData = {
+        mint,
+        amount: parseInt(tokenInfo.tokenAmount.amount),
+        decimals: tokenInfo.tokenAmount.decimals,
+        uiAmount: tokenInfo.tokenAmount.uiAmount || 0,
+        symbol: metadata.symbol || 'UNKNOWN',
+        name: metadata.name || 'Unknown Token',
+        image: metadata.image,
+        description: metadata.description,
+        website: metadata.website,
+        twitter: metadata.twitter,
+        verified: metadata.verified,
+        price: metadata.price,
+        priceChange24h: metadata.priceChange24h,
+        marketCap: metadata.marketCap,
+        volume24h: metadata.volume24h,
+        liquidity: metadata.liquidity,
+        riskLevel,
+        issues,
+        delegate: tokenInfo.delegate,
+        closeAuthority: tokenInfo.closeAuthority,
+        tokenAccount: account.pubkey.toString(),
+        // Calculate USD value
+        valueUsd: metadata.price
+          ? (tokenInfo.tokenAmount.uiAmount || 0) * metadata.price
+          : null,
+      }
 
       if (isNFT) {
         nfts.push({
           mint,
           name: metadata.name || 'Unknown NFT',
           image: metadata.image,
+          description: metadata.description,
           riskLevel,
           issues,
         })
       } else {
-        tokens.push({
-          mint,
-          amount: parseInt(tokenInfo.tokenAmount.amount),
-          decimals: tokenInfo.tokenAmount.decimals,
-          uiAmount: tokenInfo.tokenAmount.uiAmount || 0,
-          symbol: metadata.symbol || 'UNKNOWN',
-          name: metadata.name || 'Unknown Token',
-          image: metadata.image,
-          riskLevel,
-          issues,
-          delegate: tokenInfo.delegate,
-          closeAuthority: tokenInfo.closeAuthority,
-          freezeAuthority: tokenInfo.freezeAuthority,
-        })
+        tokens.push(tokenData)
       }
     }
 
-    // Calculate statistics
+    // Calculate portfolio value
+    const totalValue = tokens.reduce(
+      (sum, token) => sum + (token.valueUsd || 0),
+      0
+    )
+
+    // Enhanced statistics
     const allAssets = [...tokens, ...nfts]
     const suspiciousCount = allAssets.filter(
       (asset) => asset.riskLevel === 'suspicious'
@@ -386,22 +393,32 @@ export const handler: Handler = async (event, context) => {
     const maliciousCount = allAssets.filter(
       (asset) => asset.riskLevel === 'malicious'
     ).length
-    const riskScore = calculateRiskScore(tokens, nfts)
 
-    const scanResult: ScanResult = {
-      tokens,
+    const scanResult = {
+      tokens: tokens.sort((a, b) => (b.valueUsd || 0) - (a.valueUsd || 0)), // Sort by value
       nfts,
       totalTokens: tokens.length,
       totalNFTs: nfts.length,
       suspiciousTokens: suspiciousCount,
       maliciousTokens: maliciousCount,
       delegateApprovals: delegateCount,
-      riskScore,
-      recommendations: generateRecommendations({
-        maliciousTokens: maliciousCount,
-        suspiciousTokens: suspiciousCount,
-        delegateApprovals: delegateCount,
-      }),
+      totalValueUsd: totalValue,
+      riskScore: Math.min(
+        100,
+        Math.round(
+          ((suspiciousCount * 5 + maliciousCount * 10) /
+            Math.max(1, allAssets.length)) *
+            10
+        )
+      ),
+      recommendations: [
+        suspiciousCount > 0 && '🔍 Research suspicious tokens before trading',
+        maliciousCount > 0 &&
+          '🚨 Immediately review and close malicious token accounts',
+        delegateCount > 0 && '🔒 Revoke unnecessary token approvals',
+        totalValue > 1000 && '🛡️ Consider using a hardware wallet for security',
+        '📊 Check token metrics on trusted explorers before trading',
+      ].filter(Boolean),
     }
 
     return {
@@ -410,7 +427,7 @@ export const handler: Handler = async (event, context) => {
       body: JSON.stringify(scanResult),
     }
   } catch (error) {
-    console.error('Scan error:', error)
+    console.error('Enhanced scan error:', error)
     return {
       statusCode: 500,
       headers,
