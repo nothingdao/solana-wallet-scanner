@@ -1,131 +1,195 @@
 import React, { useState } from 'react';
-import { Connection, PublicKey } from '@solana/web3.js';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { Shield, AlertTriangle, CheckCircle, Wallet, RefreshCw } from 'lucide-react';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import {
+  WalletMultiButton,
+  WalletDisconnectButton
+} from '@solana/wallet-adapter-react-ui';
+import WalletActions from './WalletActions';
+import TransactionAlert from './TransactionAlert';
 
-interface TokenInfo {
+// Types
+interface TokenAccount {
   mint: string;
   amount: number;
+  decimals: number;
+  uiAmount: number;
   symbol?: string;
   name?: string;
   image?: string;
   riskLevel: 'safe' | 'suspicious' | 'malicious';
   issues: string[];
+  delegate?: string;
+  closeAuthority?: string;
+  tokenAccount?: string;
+}
+
+interface NFTAccount {
+  mint: string;
+  name?: string;
+  image?: string;
+  collection?: string;
+  riskLevel: 'safe' | 'suspicious' | 'malicious';
+  issues: string[];
 }
 
 interface ScanResult {
-  tokens: TokenInfo[];
+  tokens: TokenAccount[];
+  nfts: NFTAccount[];
   totalTokens: number;
-  riskySuggestions: number;
+  totalNFTs: number;
+  suspiciousTokens: number;
   maliciousTokens: number;
+  delegateApprovals: number;
+  riskScore?: number;
+  recommendations?: string[];
 }
 
+// Mock data for fallback when API is not available
+const mockScanResult: ScanResult = {
+  tokens: [
+    {
+      mint: '11111111111111111111111111111112',
+      amount: 1000000000,
+      decimals: 9,
+      uiAmount: 1.0,
+      symbol: 'SOL',
+      name: 'Solana',
+      riskLevel: 'safe',
+      issues: [],
+      tokenAccount: 'mock-account-1'
+    },
+    {
+      mint: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
+      amount: 500000000,
+      decimals: 6,
+      uiAmount: 500.0,
+      symbol: 'USDC',
+      name: 'USD Coin',
+      riskLevel: 'safe',
+      issues: [],
+      tokenAccount: 'mock-account-2'
+    },
+    {
+      mint: 'FakeToken123456789',
+      amount: 999999999,
+      decimals: 9,
+      uiAmount: 999.999999,
+      symbol: 'SOLANA',
+      name: '🚀 SOLANA GIVEAWAY 🚀',
+      riskLevel: 'malicious',
+      issues: ['Suspicious symbol mimicking SOL', 'Excessive supply', 'No verified metadata'],
+      delegate: 'malicious-delegate-address',
+      tokenAccount: 'mock-account-3'
+    },
+    {
+      mint: 'SuspiciousToken987654321',
+      amount: 1000000,
+      decimals: 6,
+      uiAmount: 1.0,
+      symbol: 'SHIB',
+      name: 'Shiba Inu Clone',
+      riskLevel: 'suspicious',
+      issues: ['Unverified creator', 'Low liquidity'],
+      tokenAccount: 'mock-account-4'
+    }
+  ],
+  nfts: [
+    {
+      mint: 'NFT123456789',
+      name: 'Suspicious NFT Collection',
+      riskLevel: 'suspicious',
+      issues: ['Unverified collection', 'Suspicious metadata']
+    }
+  ],
+  totalTokens: 4,
+  totalNFTs: 1,
+  suspiciousTokens: 1,
+  maliciousTokens: 1,
+  delegateApprovals: 1,
+  riskScore: 35,
+  recommendations: [
+    '🚨 Immediately revoke delegate approval for malicious token',
+    '🗑️ Close accounts containing scam tokens',
+    '🔍 Research suspicious tokens before interacting'
+  ]
+};
+
 const WalletScanner: React.FC = () => {
-  const [walletAddress, setWalletAddress] = useState('');
+  const { connection } = useConnection();
+  const { publicKey, connected } = useWallet();
   const [isScanning, setIsScanning] = useState(false);
   const [scanProgress, setScanProgress] = useState(0);
   const [scanResult, setScanResult] = useState<ScanResult | null>(null);
   const [error, setError] = useState('');
-
-  const connection = new Connection('https://api.mainnet-beta.solana.com');
-
-  const mockScanResult: ScanResult = {
-    tokens: [
-      {
-        mint: '11111111111111111111111111111112',
-        amount: 1000000,
-        symbol: 'SOL',
-        name: 'Solana',
-        riskLevel: 'safe',
-        issues: []
-      },
-      {
-        mint: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
-        amount: 500000000,
-        symbol: 'USDC',
-        name: 'USD Coin',
-        riskLevel: 'safe',
-        issues: []
-      },
-      {
-        mint: 'FakeToken123456789',
-        amount: 999999999,
-        symbol: 'SOLANA',
-        name: '🚀 SOLANA GIVEAWAY 🚀',
-        riskLevel: 'malicious',
-        issues: ['Suspicious symbol mimicking SOL', 'Excessive supply', 'No verified metadata']
-      },
-      {
-        mint: 'SuspiciousToken987654321',
-        amount: 1,
-        symbol: 'SHIB',
-        name: 'Shiba Inu Clone',
-        riskLevel: 'suspicious',
-        issues: ['Unverified creator', 'Low liquidity']
-      }
-    ],
-    totalTokens: 4,
-    riskySuggestions: 1,
-    maliciousTokens: 1
-  };
+  const [alert, setAlert] = useState<{ message: string, type: 'success' | 'error' | 'info' } | null>(null);
 
   const scanWallet = async () => {
-    if (!walletAddress) return;
+    if (!publicKey || !connected) {
+      setError('Please connect your wallet first');
+      return;
+    }
 
     setIsScanning(true);
     setScanProgress(0);
     setError('');
+    setAlert(null);
 
     try {
-      // Validate address
-      new PublicKey(walletAddress);
-
-      // Try to call the real API first, fallback to mock
+      // Try to call the real API first
       try {
+        setScanProgress(10);
         const response = await fetch('/.netlify/functions/scan-wallet', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ walletAddress }),
+          body: JSON.stringify({ walletAddress: publicKey.toString() }),
         });
+
+        setScanProgress(50);
 
         if (response.ok) {
           const result = await response.json();
-          setScanResult(result);
           setScanProgress(100);
+          setScanResult(result);
+          setAlert({
+            message: `Scan completed! Found ${result.totalTokens} tokens with ${result.maliciousTokens} malicious and ${result.suspiciousTokens} suspicious.`,
+            type: 'info'
+          });
           setIsScanning(false);
           return;
         }
       } catch (apiError) {
-        console.log('API not available, using mock data');
+        console.log('API not available, using mock data for demo');
       }
 
-      // Simulate scanning progress for mock data
-      const progressInterval = setInterval(() => {
-        setScanProgress(prev => {
-          if (prev >= 90) {
-            clearInterval(progressInterval);
-            return 90;
-          }
-          return prev + 10;
-        });
-      }, 200);
+      // Fallback to mock data with realistic progress simulation
+      const progressSteps = [20, 40, 60, 80, 95, 100];
+      for (const step of progressSteps) {
+        await new Promise(resolve => setTimeout(resolve, 300));
+        setScanProgress(step);
+      }
 
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
-      setScanProgress(100);
       setScanResult(mockScanResult);
+      setAlert({
+        message: 'Demo scan completed! This is using mock data. Deploy to Netlify for real scanning.',
+        type: 'info'
+      });
 
     } catch (err) {
-      setError('Invalid wallet address');
+      console.error('Scan error:', err);
+      setError('Failed to scan wallet. Please try again.');
     } finally {
       setIsScanning(false);
     }
+  };
+
+  const handleActionSuccess = (message: string) => {
+    setAlert({ message, type: 'success' });
+  };
+
+  const handleActionError = (message: string) => {
+    setAlert({ message, type: 'error' });
   };
 
   const getRiskColor = (riskLevel: string) => {
@@ -139,170 +203,271 @@ const WalletScanner: React.FC = () => {
 
   const getRiskIcon = (riskLevel: string) => {
     switch (riskLevel) {
-      case 'safe': return <CheckCircle className="w-4 h-4" />;
-      case 'suspicious': return <AlertTriangle className="w-4 h-4" />;
-      case 'malicious': return <Shield className="w-4 h-4" />;
-      default: return null;
+      case 'safe': return '✅';
+      case 'suspicious': return '⚠️';
+      case 'malicious': return '🚨';
+      default: return '❓';
     }
   };
 
-  const handleTakeAction = (token: TokenInfo) => {
-    alert(`Taking action on ${token.name}:\n\nIssues found:\n${token.issues.join('\n')}\n\nRecommended actions:\n- Revoke token approvals\n- Consider removing from wallet\n- Report as suspicious`);
-  };
-
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6">
-      <div className="text-center space-y-2">
-        <h1 className="text-3xl font-bold flex items-center justify-center gap-2">
-          <Shield className="w-8 h-8 text-blue-600" />
-          Solana Wallet Scanner
+    <div className="max-w-6xl mx-auto p-6 space-y-6">
+      {/* Header */}
+      <div className="text-center space-y-4">
+        <h1 className="text-4xl font-bold flex items-center justify-center gap-3">
+          🛡️ Solana Wallet Security Scanner
         </h1>
-        <p className="text-gray-600">Protect your wallet from scam tokens and malicious approvals</p>
+        <p className="text-gray-600 text-lg">
+          Protect your wallet from scam tokens, malicious approvals, and security threats
+        </p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Wallet className="w-5 h-5" />
-            Scan Wallet
-          </CardTitle>
-          <CardDescription>
-            Enter your Solana wallet address to scan for potential security risks
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex gap-2">
-            <input
-              type="text"
-              placeholder="Enter Solana wallet address..."
-              value={walletAddress}
-              onChange={(e) => setWalletAddress(e.target.value)}
-              className="flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              disabled={isScanning}
-            />
-            <Button
+      {/* Alerts */}
+      {alert && (
+        <TransactionAlert
+          message={alert.message}
+          type={alert.type}
+          onClose={() => setAlert(null)}
+        />
+      )}
+
+      {/* Wallet Connection */}
+      <div className="bg-white rounded-lg border p-6 text-center space-y-4">
+        <h2 className="text-2xl font-semibold">Connect Your Wallet</h2>
+        <p className="text-gray-600">
+          Connect your Solana wallet to scan for security threats
+        </p>
+
+        <div className="flex justify-center gap-4 flex-wrap">
+          <WalletMultiButton className="!bg-blue-600 hover:!bg-blue-700 !rounded-lg" />
+          {connected && <WalletDisconnectButton className="!bg-gray-600 hover:!bg-gray-700 !rounded-lg" />}
+        </div>
+
+        {connected && publicKey && (
+          <div className="mt-4 p-4 bg-green-50 rounded-lg">
+            <p className="text-sm text-green-800 font-medium">
+              ✅ Connected: {publicKey.toString().slice(0, 8)}...{publicKey.toString().slice(-8)}
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Scan Section */}
+      {connected && (
+        <div className="bg-white rounded-lg border p-6 space-y-4">
+          <div className="text-center space-y-4">
+            <h3 className="text-xl font-semibold">Scan Your Wallet</h3>
+            <button
               onClick={scanWallet}
-              disabled={isScanning || !walletAddress}
-              className="min-w-[100px]"
+              disabled={isScanning}
+              className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white px-8 py-3 rounded-lg font-semibold transition-colors text-lg"
             >
-              {isScanning ? (
-                <>
-                  <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                  Scanning
-                </>
-              ) : (
-                'Scan Wallet'
-              )}
-            </Button>
+              {isScanning ? '🔄 Scanning...' : '🔍 Start Security Scan'}
+            </button>
           </div>
 
           {error && (
-            <div className="border border-red-200 bg-red-50 p-3 rounded-md flex items-center gap-2">
-              <AlertTriangle className="w-4 h-4 text-red-600" />
-              <span className="text-red-800">{error}</span>
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+              <p className="text-red-800 flex items-center gap-2">
+                <span className="text-lg">❌</span>
+                {error}
+              </p>
             </div>
           )}
 
           {isScanning && (
             <div className="space-y-2">
               <div className="flex justify-between text-sm text-gray-600">
-                <span>Scanning wallet...</span>
+                <span>Scanning wallet for threats...</span>
                 <span>{scanProgress}%</span>
               </div>
-              <Progress value={scanProgress} className="w-full" />
+              <div className="w-full bg-gray-200 rounded-full h-3">
+                <div
+                  className="bg-blue-600 h-3 rounded-full transition-all duration-300"
+                  style={{ width: `${scanProgress}%` }}
+                />
+              </div>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      )}
 
+      {/* Scan Results */}
       {scanResult && (
         <div className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Card>
-              <CardContent className="pt-6">
-                <div className="flex items-center space-x-2">
-                  <CheckCircle className="w-5 h-5 text-green-600" />
-                  <div>
-                    <p className="text-2xl font-bold">{scanResult.totalTokens}</p>
-                    <p className="text-sm text-gray-600">Total Tokens</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="pt-6">
-                <div className="flex items-center space-x-2">
-                  <AlertTriangle className="w-5 h-5 text-yellow-600" />
-                  <div>
-                    <p className="text-2xl font-bold text-yellow-600">{scanResult.riskySuggestions}</p>
-                    <p className="text-sm text-gray-600">Suspicious</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="pt-6">
-                <div className="flex items-center space-x-2">
-                  <Shield className="w-5 h-5 text-red-600" />
-                  <div>
-                    <p className="text-2xl font-bold text-red-600">{scanResult.maliciousTokens}</p>
-                    <p className="text-sm text-gray-600">Malicious</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+          {/* Summary Cards */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="bg-white rounded-lg border p-4 text-center">
+              <div className="text-3xl font-bold text-blue-600">{scanResult.totalTokens}</div>
+              <div className="text-sm text-gray-600 font-medium">Tokens</div>
+            </div>
+            <div className="bg-white rounded-lg border p-4 text-center">
+              <div className="text-3xl font-bold text-purple-600">{scanResult.totalNFTs}</div>
+              <div className="text-sm text-gray-600 font-medium">NFTs</div>
+            </div>
+            <div className="bg-white rounded-lg border p-4 text-center">
+              <div className="text-3xl font-bold text-yellow-600">{scanResult.suspiciousTokens}</div>
+              <div className="text-sm text-gray-600 font-medium">Suspicious</div>
+            </div>
+            <div className="bg-white rounded-lg border p-4 text-center">
+              <div className="text-3xl font-bold text-red-600">{scanResult.maliciousTokens}</div>
+              <div className="text-sm text-gray-600 font-medium">Malicious</div>
+            </div>
           </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Token Analysis</CardTitle>
-              <CardDescription>Review your tokens and take action on risky assets</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {scanResult.tokens.map((token, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
-                    <div className="flex items-center space-x-4">
-                      <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                        {token.symbol?.charAt(0) || '?'}
+          {/* Risk Score */}
+          {scanResult.riskScore !== undefined && (
+            <div className="bg-white rounded-lg border p-6">
+              <h3 className="text-xl font-semibold mb-4">Security Risk Score</h3>
+              <div className="flex items-center gap-4">
+                <div className="flex-1">
+                  <div className="w-full bg-gray-200 rounded-full h-4">
+                    <div
+                      className={`h-4 rounded-full transition-all duration-500 ${scanResult.riskScore <= 30 ? 'bg-green-500' :
+                        scanResult.riskScore <= 60 ? 'bg-yellow-500' : 'bg-red-500'
+                        }`}
+                      style={{ width: `${scanResult.riskScore}%` }}
+                    />
+                  </div>
+                </div>
+                <div className="text-2xl font-bold">
+                  {scanResult.riskScore}/100
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Delegate Approvals Warning */}
+          {scanResult.delegateApprovals > 0 && (
+            <div className="bg-orange-50 border border-orange-200 rounded-lg p-6">
+              <h4 className="font-semibold text-orange-800 mb-2 flex items-center gap-2">
+                <span className="text-xl">⚠️</span>
+                Active Delegate Approvals Detected
+              </h4>
+              <p className="text-orange-700">
+                You have {scanResult.delegateApprovals} tokens with active delegate approvals.
+                These can be revoked to improve security.
+              </p>
+            </div>
+          )}
+
+          {/* Recommendations */}
+          {scanResult.recommendations && scanResult.recommendations.length > 0 && (
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+              <h4 className="font-semibold text-blue-800 mb-3">Security Recommendations</h4>
+              <ul className="space-y-2">
+                {scanResult.recommendations.map((rec, index) => (
+                  <li key={index} className="text-blue-700 text-sm flex items-start gap-2">
+                    <span className="mt-0.5">•</span>
+                    <span>{rec}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Token List */}
+          <div className="bg-white rounded-lg border">
+            <div className="p-6 border-b">
+              <h3 className="text-xl font-semibold">Token Analysis</h3>
+              <p className="text-gray-600">Review your tokens and take action on risky assets</p>
+            </div>
+
+            <div className="divide-y">
+              {scanResult.tokens.map((token, index) => (
+                <div key={index} className="p-6 flex items-center justify-between">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-xl font-bold">
+                      {token.symbol?.charAt(0) || '?'}
+                    </div>
+                    <div>
+                      <div className="font-semibold text-lg">{token.name}</div>
+                      <div className="text-sm text-gray-600 font-medium">{token.symbol}</div>
+                      <div className="text-xs text-gray-500">
+                        Amount: {token.uiAmount.toLocaleString()}
                       </div>
-                      <div>
-                        <p className="font-medium">{token.name || 'Unknown Token'}</p>
-                        <p className="text-sm text-gray-600">{token.symbol}</p>
-                        <p className="text-xs text-gray-500">{token.mint.slice(0, 8)}...</p>
+                      <div className="text-xs text-gray-400">
+                        {token.mint.slice(0, 8)}...{token.mint.slice(-8)}
                       </div>
+                      {token.issues.length > 0 && (
+                        <div className="mt-2 space-y-1">
+                          {token.issues.map((issue, i) => (
+                            <div key={i} className="text-xs text-red-600 bg-red-50 px-2 py-1 rounded">
+                              {issue}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-4">
+                    <div className="text-right">
+                      <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium border ${getRiskColor(token.riskLevel)}`}>
+                        <span className="text-base">{getRiskIcon(token.riskLevel)}</span>
+                        <span className="capitalize">{token.riskLevel}</span>
+                      </div>
+                      {token.delegate && (
+                        <div className="text-xs text-orange-600 mt-1 font-medium">
+                          Has delegate approval
+                        </div>
+                      )}
                     </div>
 
-                    <div className="flex items-center space-x-4">
-                      <div className="text-right">
-                        <Badge className={getRiskColor(token.riskLevel)}>
-                          {getRiskIcon(token.riskLevel)}
-                          <span className="ml-1 capitalize">{token.riskLevel}</span>
-                        </Badge>
-                        {token.issues.length > 0 && (
-                          <p className="text-xs text-gray-500 mt-1">
-                            {token.issues.length} issue{token.issues.length > 1 ? 's' : ''}
-                          </p>
-                        )}
-                      </div>
+                    {(token.riskLevel !== 'safe' || token.delegate) && (
+                      <WalletActions
+                        token={token}
+                        onSuccess={handleActionSuccess}
+                        onError={handleActionError}
+                      />
+                    )}
+                  </div>
+                </div>
+              ))}
 
-                      {token.riskLevel !== 'safe' && (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleTakeAction(token)}
-                        >
-                          Take Action
-                        </Button>
+              {scanResult.tokens.length === 0 && (
+                <div className="p-6 text-center text-gray-500">
+                  No tokens found in this wallet
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* NFT List */}
+          {scanResult.nfts.length > 0 && (
+            <div className="bg-white rounded-lg border">
+              <div className="p-6 border-b">
+                <h3 className="text-xl font-semibold">NFT Analysis</h3>
+                <p className="text-gray-600">Review your NFTs for potential risks</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-6">
+                {scanResult.nfts.map((nft, index) => (
+                  <div key={index} className="border rounded-lg p-4">
+                    <div className="aspect-square bg-gray-100 rounded-lg mb-3 flex items-center justify-center">
+                      {nft.image ? (
+                        <img src={nft.image} alt={nft.name} className="w-full h-full object-cover rounded-lg" />
+                      ) : (
+                        <div className="text-gray-400 text-4xl">🖼️</div>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <div className="font-medium truncate">{nft.name || 'Unknown NFT'}</div>
+                      <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium border ${getRiskColor(nft.riskLevel)}`}>
+                        <span>{getRiskIcon(nft.riskLevel)}</span>
+                        <span className="capitalize">{nft.riskLevel}</span>
+                      </div>
+                      {nft.issues.length > 0 && (
+                        <div className="text-xs text-gray-500">
+                          {nft.issues.join(', ')}
+                        </div>
                       )}
                     </div>
                   </div>
                 ))}
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          )}
         </div>
       )}
     </div>
