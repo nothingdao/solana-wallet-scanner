@@ -28,3 +28,8 @@ dist-ssr
 
 # cntx-ui
 .cntx
+
+# Environment variables
+.env
+.env.local
+.env.*.local

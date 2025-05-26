@@ -1,6 +1,82 @@
 import { Handler } from '@netlify/functions'
 import { Connection, PublicKey } from '@solana/web3.js'
 import { TOKEN_PROGRAM_ID, getAccount } from '@solana/spl-token'
+import { createUmi } from '@metaplex-foundation/umi-bundle-defaults'
+import { mplTokenMetadata } from '@metaplex-foundation/mpl-token-metadata'
+import { fetchMetadata, findMetadataPda } from '@metaplex-foundation/mpl-token-metadata'
+import { publicKey } from '@metaplex-foundation/umi'
+import { base58 } from '@metaplex-foundation/umi/serializers'
+
+// Add this near the top, after your imports
+
+type EnhancedTokenMetadata = {
+  mint: string;
+  name: string | null;
+  symbol: string | null;
+  image: string | null;
+  decimals: number | null;
+  description: string | null;
+  website: string | null;
+  twitter: string | null;
+  verified: boolean;
+  price: number | null;
+  priceChange24h: number | null;
+  marketCap: number | null;
+  volume24h: number | null;
+  liquidity: number | null;
+  coingeckoId?: string | null;
+};
+
+// Add these types at the top after imports
+type TokenInfo = {
+  mint: string;
+  amount: number;
+  decimals: number;
+  uiAmount: number;
+  delegate?: string;
+  closeAuthority?: string;
+  tokenAmount: {
+    amount: string;
+    decimals: number;
+    uiAmount: number;
+  };
+};
+
+type NFTMetadata = {
+  mint: string;
+  name: string;
+  image: string | null;
+  description: string | null;
+  riskLevel: RiskLevel;
+  issues: string[];
+};
+
+type TokenData = {
+  mint: string;
+  amount: number;
+  decimals: number;
+  uiAmount: number;
+  symbol: string;
+  name: string;
+  image: string | null;
+  description: string | null;
+  website: string | null;
+  twitter: string | null;
+  verified: boolean;
+  price: number | null;
+  priceChange24h: number | null;
+  marketCap: number | null;
+  volume24h: number | null;
+  liquidity: number | null;
+  riskLevel: RiskLevel;
+  issues: string[];
+  delegate?: string;
+  closeAuthority?: string;
+  tokenAccount: string;
+  valueUsd: number | null;
+};
+
+type RiskLevel = 'safe' | 'suspicious' | 'malicious';
 
 // Enhanced token metadata sources
 const METADATA_SOURCES = [
@@ -131,9 +207,59 @@ async function getTokenPriceData(mint: string) {
   }
 }
 
+// Add this function to fetch Metaplex metadata
+async function fetchMetaplexMetadataUmi(mint: string): Promise<Partial<EnhancedTokenMetadata> | null> {
+  try {
+    // Create Umi instance with mplTokenMetadata plugin
+    const umi = createUmi(process.env.SOLANA_RPC_URL || 'https://api.mainnet-beta.solana.com')
+      .use(mplTokenMetadata());
+    
+    // Convert mint string to Umi PublicKey
+    const mintPublicKey = publicKey(mint);
+    
+    // Get the PDA for the metadata account
+    const metadataPda = findMetadataPda(umi, { mint: mintPublicKey });
+    
+    // Fetch metadata from the PDA
+    const metadata = await fetchMetadata(umi, metadataPda);
+    if (!metadata) return null;
+
+    // Convert Uint8Array name/symbol/uri to string and trim
+    const name = Buffer.from(metadata.name).toString('utf8').replace(/\0/g, '').trim();
+    const symbol = Buffer.from(metadata.symbol).toString('utf8').replace(/\0/g, '').trim();
+    const uri = Buffer.from(metadata.uri).toString('utf8').replace(/\0/g, '').trim();
+
+    let extraMetadata = {};
+    if (uri) {
+      try {
+        const response = await fetch(uri);
+        if (response.ok) {
+          const jsonMetadata = await response.json();
+          extraMetadata = {
+            description: jsonMetadata.description,
+            image: jsonMetadata.image,
+            website: jsonMetadata.external_url,
+          };
+        }
+      } catch (error) {
+        console.warn('Failed to fetch token URI metadata:', error);
+      }
+    }
+
+    return {
+      name: name || null,
+      symbol: symbol || null,
+      ...extraMetadata,
+    };
+  } catch (error) {
+    console.warn('Failed to fetch Metaplex metadata (Umi):', error);
+    return null;
+  }
+}
+
 // Enhanced metadata fetching with multiple sources
-async function fetchEnhancedTokenMetadata(mint: string) {
-  const metadata: any = {
+async function fetchEnhancedTokenMetadata(mint: string, connection: Connection): Promise<EnhancedTokenMetadata> {
+  const metadata: EnhancedTokenMetadata = {
     mint,
     name: null,
     symbol: null,
@@ -148,6 +274,7 @@ async function fetchEnhancedTokenMetadata(mint: string) {
     marketCap: null,
     volume24h: null,
     liquidity: null,
+    coingeckoId: null,
   }
 
   // Fetch from Jupiter Token List (most comprehensive for Solana)
@@ -196,29 +323,58 @@ async function fetchEnhancedTokenMetadata(mint: string) {
     }
   }
 
+  // Try Metaplex metadata if we don't have a name yet
+  if (!metadata.name) {
+    try {
+      const metaplexData = await fetchMetaplexMetadataUmi(mint)
+      if (metaplexData) {
+        metadata.name = metaplexData.name || metadata.name
+        metadata.symbol = metaplexData.symbol || metadata.symbol
+        metadata.image = metaplexData.image || metadata.image
+        metadata.description = metaplexData.description || metadata.description
+        metadata.website = metaplexData.website || metadata.website
+      }
+    } catch (error) {
+      console.warn('Metaplex metadata failed:', error)
+    }
+  }
+
+  // Only set as unknown if we couldn't find ANY metadata
+  if (!metadata.name) {
+    metadata.name = `Token (${mint.slice(0, 4)}...${mint.slice(-4)})`
+    metadata.symbol = mint.slice(0, 4)
+  }
+
   // Get price and market data
   const priceData = await getTokenPriceData(mint)
   Object.assign(metadata, priceData)
-
-  // Try to get on-chain metadata for NFTs/custom tokens
-  if (!metadata.name) {
-    try {
-      // This would require additional libraries like @metaplex-foundation/mpl-token-metadata
-      // For now, we'll use placeholder logic
-      metadata.name = 'Unknown Token'
-      metadata.symbol = 'UNKNOWN'
-    } catch (error) {
-      console.warn('On-chain metadata failed:', error)
-    }
-  }
 
   return metadata
 }
 
 // Enhanced risk assessment with price/liquidity data
-function assessEnhancedTokenRisk(metadata: any, tokenAccount: any) {
+function assessEnhancedTokenRisk(
+  metadata: EnhancedTokenMetadata, 
+  tokenAccount: TokenInfo
+): { riskLevel: RiskLevel; issues: string[] } {
   const issues: string[] = []
-  let riskLevel: 'safe' | 'suspicious' | 'malicious' = 'safe'
+  let riskLevel: RiskLevel = 'safe'
+
+  // Known scam token check
+  if (KNOWN_SCAM_TOKENS.has(metadata.mint)) {
+    riskLevel = 'malicious'
+    issues.push('Known scam token')
+  }
+
+  // Suspicious keyword check
+  const lowerName = (metadata.name || '').toLowerCase()
+  const lowerSymbol = (metadata.symbol || '').toLowerCase()
+  for (const keyword of SUSPICIOUS_KEYWORDS) {
+    if (lowerName.includes(keyword) || lowerSymbol.includes(keyword)) {
+      riskLevel = riskLevel === 'malicious' ? 'malicious' : 'suspicious'
+      issues.push(`Suspicious keyword: ${keyword}`)
+    }
+  }
 
   // Previous risk checks
   if (!metadata.name && !metadata.symbol) {
@@ -267,7 +423,18 @@ function assessEnhancedTokenRisk(metadata: any, tokenAccount: any) {
   return { riskLevel, issues }
 }
 
-export const handler: Handler = async (event, context) => {
+const KNOWN_SCAM_TOKENS = new Set([
+  // Add real scam token mints here
+  "EXAMPLE_SCAM_MINT_1",
+  "EXAMPLE_SCAM_MINT_2",
+  // ...etc
+]);
+
+const SUSPICIOUS_KEYWORDS = [
+  "bonus", "airdrop", "giveaway", "claim", "reward", "free", "scam", "phish", "hack", "test", "fake", "zerolends", "originether"
+];
+
+const handler: Handler = async (event, context) => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
@@ -297,10 +464,10 @@ export const handler: Handler = async (event, context) => {
       }
     }
 
-    const publicKey = new PublicKey(walletAddress)
     const connection = new Connection(
       process.env.SOLANA_RPC_URL || 'https://api.mainnet-beta.solana.com'
     )
+    const publicKey = new PublicKey(walletAddress)
 
     // Get all token accounts
     const tokenAccounts = await connection.getParsedTokenAccountsByOwner(
@@ -308,8 +475,8 @@ export const handler: Handler = async (event, context) => {
       { programId: TOKEN_PROGRAM_ID }
     )
 
-    const tokens = []
-    const nfts = []
+    const tokens: TokenData[] = []
+    const nfts: NFTMetadata[] = []
     let delegateCount = 0
 
     // Process each token account with enhanced metadata
@@ -322,7 +489,7 @@ export const handler: Handler = async (event, context) => {
       const mint = tokenInfo.mint
 
       // Fetch enhanced metadata
-      const metadata = await fetchEnhancedTokenMetadata(mint)
+      const metadata = await fetchEnhancedTokenMetadata(mint, connection)
 
       // Determine if it's an NFT
       const isNFT =
@@ -359,7 +526,6 @@ export const handler: Handler = async (event, context) => {
         delegate: tokenInfo.delegate,
         closeAuthority: tokenInfo.closeAuthority,
         tokenAccount: account.pubkey.toString(),
-        // Calculate USD value
         valueUsd: metadata.price
           ? (tokenInfo.tokenAmount.uiAmount || 0) * metadata.price
           : null,
@@ -438,3 +604,5 @@ export const handler: Handler = async (event, context) => {
     }
   }
 }
+
+export { handler }
