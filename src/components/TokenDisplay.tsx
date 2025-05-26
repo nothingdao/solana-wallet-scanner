@@ -104,9 +104,15 @@ const CompactTokenDisplay: React.FC<TokenDisplayProps> = ({ token, onAction }) =
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
             <h3 className="font-medium text-gray-900 truncate text-sm">
-              {token.name || 'Unknown Token'}
+              {token.name && token.name !== "Unknown Token"
+                ? token.name
+                : `Unknown Token (${token.mint.slice(0, 4)}...${token.mint.slice(-4)})`}
             </h3>
-            <span className="text-xs text-gray-500 font-medium">{token.symbol}</span>
+            <span className="text-xs text-gray-500 font-medium">
+              {token.symbol && token.symbol !== "UNKNOWN"
+                ? token.symbol
+                : token.mint.slice(0, 4) + "..." + token.mint.slice(-4)}
+            </span>
           </div>
 
           {/* Primary Data Row */}

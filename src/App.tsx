@@ -9,7 +9,7 @@ import {
 } from '@solana/wallet-adapter-react-ui';
 import {
   PhantomWalletAdapter,
-  SolflareWalletAdapter,
+  SolflareWalletAdapter
 } from '@solana/wallet-adapter-wallets';
 
 // Import wallet adapter CSS
