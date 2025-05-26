@@ -1,5 +1,5 @@
 {
-  "lastAccessed": "2025-05-26T00:48:15.646Z",
+  "lastAccessed": "2025-05-26T01:03:03.767Z",
   "files": {
     "netlify/functions/scan-wallet.ts": {
       "name": "scan-wallet.ts",
@@ -7,7 +7,7 @@
       "lastModified": "2025-05-26T00:40:22.983Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "src/components/ui/progress.tsx": {
@@ -16,7 +16,7 @@
       "lastModified": "2025-05-25T23:31:10.409Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "src/components/ui/alert-dialog.tsx": {
@@ -25,7 +25,7 @@
       "lastModified": "2025-05-25T23:31:10.402Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "src/components/ui/button.tsx": {
@@ -34,7 +34,7 @@
       "lastModified": "2025-05-25T23:31:10.348Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "src/components/ui/card.tsx": {
@@ -43,7 +43,7 @@
       "lastModified": "2025-05-25T23:31:10.373Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "src/components/ui/badge.tsx": {
@@ -52,16 +52,16 @@
       "lastModified": "2025-05-25T23:31:10.381Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "src/components/WalletScanner.tsx": {
       "name": "WalletScanner.tsx",
       "directory": "src/components",
-      "lastModified": "2025-05-26T00:46:25.824Z",
+      "lastModified": "2025-05-26T01:02:24.393Z",
       "isChanged": true,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "src/lib/utils.ts": {
@@ -70,7 +70,7 @@
       "lastModified": "2025-05-25T23:30:01.393Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "src/index.css": {
@@ -79,7 +79,7 @@
       "lastModified": "2025-05-25T23:29:53.287Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "src/App.css": {
@@ -88,7 +88,7 @@
       "lastModified": "2025-05-25T23:14:23.882Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "src/main.tsx": {
@@ -97,7 +97,7 @@
       "lastModified": "2025-05-25T23:14:23.885Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "src/App.tsx": {
@@ -106,7 +106,7 @@
       "lastModified": "2025-05-26T00:22:48.152Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "src/vite-env.d.ts": {
@@ -115,7 +115,7 @@
       "lastModified": "2025-05-25T23:14:23.886Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "tsconfig.node.json": {
@@ -124,7 +124,7 @@
       "lastModified": "2025-05-25T23:14:23.888Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "components.json": {
@@ -133,7 +133,7 @@
       "lastModified": "2025-05-25T23:29:52.750Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "tsconfig.json": {
@@ -142,7 +142,7 @@
       "lastModified": "2025-05-25T23:26:14.688Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "package.json": {
@@ -151,7 +151,7 @@
       "lastModified": "2025-05-26T00:07:29.106Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "README.md": {
@@ -160,7 +160,7 @@
       "lastModified": "2025-05-26T00:07:17.062Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "vite.config.ts": {
@@ -169,7 +169,7 @@
       "lastModified": "2025-05-25T23:29:33.575Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "netlify.toml": {
@@ -178,7 +178,7 @@
       "lastModified": "2025-05-25T23:34:55.264Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "tailwind.config.js": {
@@ -187,7 +187,7 @@
       "lastModified": "2025-05-25T23:26:03.230Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     ".gitignore": {
@@ -196,7 +196,7 @@
       "lastModified": "2025-05-26T00:29:58.969Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "tsconfig.app.json": {
@@ -205,7 +205,7 @@
       "lastModified": "2025-05-25T23:26:32.728Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "eslint.config.js": {
@@ -214,7 +214,7 @@
       "lastModified": "2025-05-25T23:14:23.878Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "index.html": {
@@ -223,7 +223,7 @@
       "lastModified": "2025-05-25T23:44:46.791Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "src/components/ui/alert.tsx": {
@@ -232,7 +232,7 @@
       "lastModified": "2025-05-25T23:45:24.064Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     ".env": {
@@ -241,7 +241,7 @@
       "lastModified": "2025-05-26T00:30:08.285Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "src/components/WalletActions.tsx": {
@@ -250,7 +250,7 @@
       "lastModified": "2025-05-26T00:19:34.344Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "src/components/TransactionAlert.tsx": {
@@ -259,31 +259,31 @@
       "lastModified": "2025-05-26T00:19:49.367Z",
       "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "src/components/PortfolioSummary.tsx": {
       "name": "PortfolioSummary.tsx",
       "directory": "src/components",
-      "lastModified": "2025-05-26T00:48:15.464Z",
-      "isChanged": true,
+      "lastModified": "2025-05-26T00:53:49.399Z",
+      "isChanged": false,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     },
     "src/components/TokenDisplay.tsx": {
       "name": "TokenDisplay.tsx",
       "directory": "src/components",
-      "lastModified": "2025-05-26T00:41:12.208Z",
-      "isChanged": false,
+      "lastModified": "2025-05-26T01:02:57.503Z",
+      "isChanged": true,
       "isStaged": false,
-      "masterBundleId": "master-2025-05-26T00-43-46-186Z",
+      "masterBundleId": "master-2025-05-26T00-56-53-468Z",
       "tags": []
     }
   },
   "masterBundle": {
-    "id": "master-2025-05-26T00-43-46-186Z",
-    "created": "2025-05-26T00:43:46.186Z",
+    "id": "master-2025-05-26T00-56-53-468Z",
+    "created": "2025-05-26T00:56:53.469Z",
     "fileCount": 31
   }
 }

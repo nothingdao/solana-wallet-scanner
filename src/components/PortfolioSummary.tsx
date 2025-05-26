@@ -107,7 +107,7 @@ const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
                   <div className="font-medium text-sm">
                     {token.valueUsd ? formatCurrency(token.valueUsd) : 'N/A'}
                   </div>
-                  {token.priceChange24h !== undefined && (
+                  {token.priceChange24h !== undefined && token.priceChange24h !== null && (
                     <div className={`text-xs ${token.priceChange24h >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                       {token.priceChange24h >= 0 ? '+' : ''}{token.priceChange24h.toFixed(2)}%
                     </div>
