@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import {
   WalletMultiButton,
-  WalletDisconnectButton
 } from '@solana/wallet-adapter-react-ui';
 import TokenDisplay from './TokenDisplay';
 import TransactionAlert from './TransactionAlert';
-import { PublicKey } from '@solana/web3.js';
 
 // Types
 interface TokenAccount {
@@ -56,91 +54,6 @@ interface ScanResult {
   recommendations?: string[];
 }
 
-// Mock data
-const mockScanResult: ScanResult = {
-  tokens: [
-    {
-      mint: '11111111111111111111111111111112',
-      amount: 1000000000,
-      decimals: 9,
-      uiAmount: 1.0,
-      symbol: 'SOL',
-      name: 'Solana',
-      riskLevel: 'safe',
-      issues: [],
-      tokenAccount: 'mock-account-1',
-      price: 89.31,
-      priceChange24h: -4.14,
-      valueUsd: 89.31,
-      verified: true
-    },
-    {
-      mint: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
-      amount: 500000000,
-      decimals: 6,
-      uiAmount: 500.0,
-      symbol: 'USDC',
-      name: 'USD Coin',
-      riskLevel: 'safe',
-      issues: [],
-      tokenAccount: 'mock-account-2',
-      price: 1.00,
-      priceChange24h: 0.01,
-      valueUsd: 500.00,
-      verified: true
-    },
-    {
-      mint: 'FakeToken123456789',
-      amount: 999999999,
-      decimals: 9,
-      uiAmount: 999.999999,
-      symbol: 'SOLANA',
-      name: '🚀 SOLANA GIVEAWAY 🚀',
-      riskLevel: 'malicious',
-      issues: ['Suspicious symbol mimicking SOL', 'Excessive supply', 'No verified metadata'],
-      delegate: 'malicious-delegate-address',
-      tokenAccount: 'mock-account-3',
-      price: 0.000001,
-      valueUsd: 0.001,
-      verified: false
-    },
-    {
-      mint: 'SuspiciousToken987654321',
-      amount: 1000000,
-      decimals: 6,
-      uiAmount: 1.0,
-      symbol: 'SHIB',
-      name: 'Shiba Inu Clone',
-      riskLevel: 'suspicious',
-      issues: ['Unverified creator', 'Low liquidity'],
-      tokenAccount: 'mock-account-4',
-      price: 0.00001,
-      valueUsd: 0.00001,
-      verified: false
-    }
-  ],
-  nfts: [
-    {
-      mint: 'NFT123456789',
-      name: 'Suspicious NFT Collection',
-      riskLevel: 'suspicious',
-      issues: ['Unverified collection', 'Suspicious metadata']
-    }
-  ],
-  totalTokens: 4,
-  totalNFTs: 1,
-  suspiciousTokens: 1,
-  maliciousTokens: 1,
-  delegateApprovals: 1,
-  totalValueUsd: 589.31,
-  riskScore: 35,
-  recommendations: [
-    '🚨 Immediately revoke delegate approval for malicious token',
-    '🗑️ Close accounts containing scam tokens',
-    '🔍 Research suspicious tokens before interacting'
-  ]
-};
-
 const WalletScanner: React.FC = () => {
   const { connection } = useConnection();
   const { publicKey, connected } = useWallet();
@@ -183,33 +96,11 @@ const WalletScanner: React.FC = () => {
     setAlert({ message, type: 'success' });
   };
 
-  const handleActionError = (message: string) => {
-    setAlert({ message, type: 'error' });
-  };
-
   const handleTokenAction = (action: string, token: TokenAccount) => {
     if (action === 'revoke') {
       handleActionSuccess(`Revoking approval for ${token.symbol}...`);
     } else if (action === 'close') {
       handleActionSuccess(`Closing account for ${token.symbol}...`);
-    }
-  };
-
-  const getRiskColor = (riskLevel: string) => {
-    switch (riskLevel) {
-      case 'safe': return 'bg-green-100 text-green-800 border-green-200';
-      case 'suspicious': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'malicious': return 'bg-red-100 text-red-800 border-red-200';
-      default: return 'bg-gray-100 text-gray-800 border-gray-200';
-    }
-  };
-
-  const getRiskIcon = (riskLevel: string) => {
-    switch (riskLevel) {
-      case 'safe': return '✅';
-      case 'suspicious': return '⚠️';
-      case 'malicious': return '🚨';
-      default: return '❓';
     }
   };
 

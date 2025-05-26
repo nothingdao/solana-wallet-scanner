@@ -7,6 +7,77 @@ import { fetchMetadata, findMetadataPda } from '@metaplex-foundation/mpl-token-m
 import { publicKey } from '@metaplex-foundation/umi'
 import { base58 } from '@metaplex-foundation/umi/serializers'
 
+// Add this near the top, after your imports
+
+type EnhancedTokenMetadata = {
+  mint: string;
+  name: string | null;
+  symbol: string | null;
+  image: string | null;
+  decimals: number | null;
+  description: string | null;
+  website: string | null;
+  twitter: string | null;
+  verified: boolean;
+  price: number | null;
+  priceChange24h: number | null;
+  marketCap: number | null;
+  volume24h: number | null;
+  liquidity: number | null;
+  coingeckoId?: string | null;
+};
+
+// Add these types at the top after imports
+type TokenInfo = {
+  mint: string;
+  amount: number;
+  decimals: number;
+  uiAmount: number;
+  delegate?: string;
+  closeAuthority?: string;
+  tokenAmount: {
+    amount: string;
+    decimals: number;
+    uiAmount: number;
+  };
+};
+
+type NFTMetadata = {
+  mint: string;
+  name: string;
+  image: string | null;
+  description: string | null;
+  riskLevel: RiskLevel;
+  issues: string[];
+};
+
+type TokenData = {
+  mint: string;
+  amount: number;
+  decimals: number;
+  uiAmount: number;
+  symbol: string;
+  name: string;
+  image: string | null;
+  description: string | null;
+  website: string | null;
+  twitter: string | null;
+  verified: boolean;
+  price: number | null;
+  priceChange24h: number | null;
+  marketCap: number | null;
+  volume24h: number | null;
+  liquidity: number | null;
+  riskLevel: RiskLevel;
+  issues: string[];
+  delegate?: string;
+  closeAuthority?: string;
+  tokenAccount: string;
+  valueUsd: number | null;
+};
+
+type RiskLevel = 'safe' | 'suspicious' | 'malicious';
+
 // Enhanced token metadata sources
 const METADATA_SOURCES = [
   {
@@ -137,7 +208,7 @@ async function getTokenPriceData(mint: string) {
 }
 
 // Add this function to fetch Metaplex metadata
-async function fetchMetaplexMetadataUmi(mint: string) {
+async function fetchMetaplexMetadataUmi(mint: string): Promise<Partial<EnhancedTokenMetadata> | null> {
   try {
     // Create Umi instance with mplTokenMetadata plugin
     const umi = createUmi(process.env.SOLANA_RPC_URL || 'https://api.mainnet-beta.solana.com')
@@ -187,8 +258,8 @@ async function fetchMetaplexMetadataUmi(mint: string) {
 }
 
 // Enhanced metadata fetching with multiple sources
-async function fetchEnhancedTokenMetadata(mint: string, connection: Connection) {
-  const metadata: any = {
+async function fetchEnhancedTokenMetadata(mint: string, connection: Connection): Promise<EnhancedTokenMetadata> {
+  const metadata: EnhancedTokenMetadata = {
     mint,
     name: null,
     symbol: null,
@@ -203,6 +274,7 @@ async function fetchEnhancedTokenMetadata(mint: string, connection: Connection) 
     marketCap: null,
     volume24h: null,
     liquidity: null,
+    coingeckoId: null,
   }
 
   // Fetch from Jupiter Token List (most comprehensive for Solana)
@@ -256,8 +328,8 @@ async function fetchEnhancedTokenMetadata(mint: string, connection: Connection) 
     try {
       const metaplexData = await fetchMetaplexMetadataUmi(mint)
       if (metaplexData) {
-        metadata.name = metaplexData.name
-        metadata.symbol = metaplexData.symbol
+        metadata.name = metaplexData.name || metadata.name
+        metadata.symbol = metaplexData.symbol || metadata.symbol
         metadata.image = metaplexData.image || metadata.image
         metadata.description = metaplexData.description || metadata.description
         metadata.website = metaplexData.website || metadata.website
@@ -281,9 +353,12 @@ async function fetchEnhancedTokenMetadata(mint: string, connection: Connection) 
 }
 
 // Enhanced risk assessment with price/liquidity data
-function assessEnhancedTokenRisk(metadata: any, tokenAccount: any) {
+function assessEnhancedTokenRisk(
+  metadata: EnhancedTokenMetadata, 
+  tokenAccount: TokenInfo
+): { riskLevel: RiskLevel; issues: string[] } {
   const issues: string[] = []
-  let riskLevel: 'safe' | 'suspicious' | 'malicious' = 'safe'
+  let riskLevel: RiskLevel = 'safe'
 
   // Known scam token check
   if (KNOWN_SCAM_TOKENS.has(metadata.mint)) {
@@ -400,8 +475,8 @@ const handler: Handler = async (event, context) => {
       { programId: TOKEN_PROGRAM_ID }
     )
 
-    const tokens = []
-    const nfts = []
+    const tokens: TokenData[] = []
+    const nfts: NFTMetadata[] = []
     let delegateCount = 0
 
     // Process each token account with enhanced metadata
@@ -451,7 +526,6 @@ const handler: Handler = async (event, context) => {
         delegate: tokenInfo.delegate,
         closeAuthority: tokenInfo.closeAuthority,
         tokenAccount: account.pubkey.toString(),
-        // Calculate USD value
         valueUsd: metadata.price
           ? (tokenInfo.tokenAmount.uiAmount || 0) * metadata.price
           : null,
