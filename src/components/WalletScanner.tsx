@@ -55,7 +55,6 @@ interface ScanResult {
 }
 
 const WalletScanner: React.FC = () => {
-  const { connection } = useConnection();
   const { publicKey, connected } = useWallet();
   const [scanning, setScanning] = useState(false);
   const [scanResult, setScanResult] = useState<ScanResult | null>(null);
